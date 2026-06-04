@@ -62,11 +62,15 @@ func menutambahData() {
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [0 - 2]?")
+
 	fmt.Scan(&pilih)
+
 	if pilih == 1 {
 		tambahPakaian(&daftarToko)
+
 	} else if pilih >= 2 {
 		tambahPakaianMany(&daftarToko)
+
 	}
 }
 
@@ -92,7 +96,7 @@ func menuEditData() {
 // //kay
 // //menu hapus data
 func hapusData() {
-	var pilih int
+	var pilih, id int
 	fmt.Println()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
@@ -104,6 +108,13 @@ func hapusData() {
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [0 - 2]? ")
 	fmt.Scan(&pilih)
+	if pilih == 1 {
+		fmt.Print("Masukkan Id yang mau dihapus : ")
+		fmt.Scan(&id)
+		hapusDatabyID(&daftarToko, &jumlahData, id)
+	} else if pilih == 2 {
+		hapusSemua()
+	}
 
 }
 func inisialisasiData() {
@@ -227,31 +238,6 @@ func daftarpakaian() {
 			daftarToko[i].stok)
 	}
 	fmt.Println("+-------+----------------------+-----------------+------------+-------+\n")
-}
-func sequentialSearchbySize(data datapakaian, n int, ukuran string) int {
-	var found, i int
-	found = -1
-	i = 0
-	for i > n && found == -1 {
-		if bobotUkuran(data[i].ukuran) == bobotUkuran(ukuran) {
-			found = i
-		}
-		i++
-	}
-	return found
-}
-
-func sequentialSearchbyColor(data datapakaian, n int, warna string) int {
-	var found, i int
-	found = -1
-	i = 0
-	for i > n && found == -1 {
-		if data[i].warna == warna {
-			found = i
-		}
-		i++
-	}
-	return found
 }
 func isNumber(input int) bool {
 	if input >= 0 {
@@ -399,6 +385,8 @@ func bobotUkuran(ukuran string) int {
 	}
 	return 0 // Jika ada ukuran di luar itu
 }
+
+// fungsi  untuk menambahkan pakaian ke daftar pakaian
 func tambahPakaian(data *datapakaian) {
 	var inputStok int
 	data[jumlahData].id = jumlahData + 1
@@ -431,6 +419,8 @@ func tambahPakaianMany(data *datapakaian) {
 		inputData--
 	}
 }
+
+// fungsi untuk mengedit data berdasarkan id
 func editDatabyId(data *datapakaian) {
 	var id, stok int
 	var nama, warna, ukuran string
@@ -454,6 +444,8 @@ func editDatabyId(data *datapakaian) {
 	data[id-1].warna = warna
 	data[id-1].ukuran = ukuran
 }
+
+// fungsi untuk mencari id
 func findId(data *datapakaian, id int) bool {
 	var left, right, mid int
 	var found bool
@@ -471,6 +463,54 @@ func findId(data *datapakaian, id int) bool {
 	}
 	return found
 }
+
+// fungsi untuk mencari indeks berdasarkan id
+func findIdxbyId(data *datapakaian, id int) int {
+	var left, right, mid int
+	var idxfound int
+	idxfound = -1
+	right = jumlahData - 1
+	for left <= right && idxfound == -1 {
+		mid = (left + right) / 2
+		if data[mid].id == id {
+			idxfound = mid
+		} else if data[mid].id > id {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return idxfound
+}
+
+// mencari ukuran menggunakan sequential search
+func sequentialSearchbySize(data datapakaian, n int, ukuran string) int {
+	var found, i int
+	found = -1
+	i = 0
+	for i > n && found == -1 {
+		if bobotUkuran(data[i].ukuran) == bobotUkuran(ukuran) {
+			found = i
+		}
+		i++
+	}
+	return found
+}
+
+// mencari warna menggunakan sequential search
+func sequentialSearchbyColor(data datapakaian, n int, warna string) int {
+	var found, i int
+	found = -1
+	i = 0
+	for i > n && found == -1 {
+		if data[i].warna == warna {
+			found = i
+		}
+		i++
+	}
+	return found
+}
+
 func ukuranBinarySearchAsc(A *datapakaian, n int, x string) {
 	var left, right, mid int
 	var idx int
@@ -741,9 +781,11 @@ func menuSorting() {
 
 			if pilih3 == 1 {
 				// panggil fungsi
+				ukuranInsertAsc(&daftarToko, jumlahData)
 				cetakData(daftarToko, 0, jumlahData-1)
 			} else if pilih3 == 2 {
 				//panggil fungsi
+				ukuranInsertDesc(&daftarToko, jumlahData)
 				cetakData(daftarToko, 0, jumlahData-1)
 			} else if pilih3 == 0 {
 				clearScreen()
@@ -765,9 +807,11 @@ func menuSorting() {
 
 			if pilih4 == 1 {
 				//panggil fungsi
+				warnaInsertAsc(&daftarToko, jumlahData)
 				cetakData(daftarToko, 0, jumlahData-1)
 			} else if pilih4 == 2 {
 				//panggil fungsi
+				warnaInsertDesc(&daftarToko, jumlahData)
 				cetakData(daftarToko, 0, jumlahData-1)
 			} else if pilih4 == 0 {
 				clearScreen()
@@ -895,28 +939,116 @@ func warnaSelecSortDesc(A *datapakaian, n int) {
 // Kay
 // ukuran insertion sort asc
 func ukuranInsertAsc(A *datapakaian, n int) {
-
+	var i, pass int
+	var temp pakaian
+	pass = 1
+	for pass < n {
+		temp = (*A)[pass]
+		i = pass - 1
+		for i >= 0 && bobotUkuran((*A)[i].ukuran) > bobotUkuran(temp.ukuran) {
+			(*A)[i+1] = (*A)[i]
+			i--
+		}
+		(*A)[i+1] = temp
+		pass++
+	}
 }
 
 // ukuran insertion sort desc
 func ukuranInsertDesc(A *datapakaian, n int) {
-
+	var i, pass int
+	var temp pakaian
+	pass = 1
+	for pass < n {
+		temp = (*A)[pass]
+		i = pass - 1
+		for i >= 0 && bobotUkuran((*A)[i].ukuran) < bobotUkuran(temp.ukuran) {
+			(*A)[i+1] = (*A)[i]
+			i--
+		}
+		(*A)[i+1] = temp
+		pass++
+	}
 }
 
 // warna insertion asc
 func warnaInsertAsc(A *datapakaian, n int) {
-
+	var i, pass int
+	var temp pakaian
+	pass = 1
+	for pass < n {
+		temp = (*A)[pass]
+		i = pass - 1
+		for i >= 0 && (*A)[i].warna > temp.warna {
+			(*A)[i+1] = (*A)[i]
+			i--
+		}
+		(*A)[i+1] = temp
+		pass++
+	}
 }
 
 // warna insertion desc
 func warnaInsertDesc(A *datapakaian, n int) {
+	var i, pass int
+	var temp pakaian
+	pass = 1
+	for pass < n {
+		temp = (*A)[pass]
+		i = pass - 1
+		for i >= 0 && (*A)[i].warna < temp.warna {
+			(*A)[i+1] = (*A)[i]
+			i--
+		}
+		(*A)[i+1] = temp
+		pass++
+	}
+}
 
+func hapusDatabyID(A *datapakaian, n *int, id int) {
+	var idx, i int
+	if id == A[jumlahData-1].id {
+		*n = *n - 1
+	} else {
+		idx = findIdxbyId(A, id)
+		if idx == -1 {
+			hapusData()
+		}
+		i = idx
+		for i < *n-1 {
+			(*A)[i] = A[i+1]
+			i++
+		}
+		*n = *n - 1
+	}
+}
+func hapusSemua() {
+	var input string
+	fmt.Println("Apakah anda yakin akan manghapus data tersebut?iya/tidak")
+	fmt.Scan(&input)
+	if input == "iya" {
+		jumlahData = 0
+	} else if input == "tidak" {
+		hapusData()
+	} else {
+		fmt.Println("Input yang anda masukkan salah")
+		hapusSemua()
+	}
 }
 
 func menuExit() {
-	fmt.Println("Terimakasih telah menggunakan aplikasi ini >_<")
+	var input string
+	fmt.Println("Apakah anda yakin akan keluar dari Aplikasi ini ?")
+	fmt.Scan(&input)
+	if input == "Iya" {
+		clearScreen()
+		fmt.Println("Terimakasih telah menggunakan aplikasi ini >_<")
+	} else if input == "Tidak" {
+		menu_utama()
+	}
 
 }
+
 func clearScreen() {
 
 }
@@ -937,6 +1069,7 @@ func main() {
 		case 3:
 			menuEditData()
 		case 4:
+			hapusData()
 		case 5:
 			menu_searching()
 		case 6:
