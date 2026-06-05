@@ -258,11 +258,11 @@ func menu_searching() {
 			if pilih3 == 1 {
 				fmt.Print("Ukuran yang dicari (Binary Asc): ")
 				fmt.Scan(&katakunci)
-				ukuranBinarySearchAsc(daftarToko, jumlahData, katakunci)
+				ukuranBinarySearchAsc(&daftarToko, jumlahData, katakunci)
 			} else if pilih3 == 2 {
 				fmt.Print("Ukuran yang dicari (Binary Desc): ")
 				fmt.Scan(&katakunci)
-				ukuranBinarySearchDesc(daftarToko, jumlahData, katakunci)
+				ukuranBinarySearchDesc(&daftarToko, jumlahData, katakunci)
 			} else if pilih3 == 0 {
 				clearScreen()
 				menu_searching()
@@ -284,11 +284,11 @@ func menu_searching() {
 			if pilih4 == 1 {
 				fmt.Print("Warna yang dicari: ")
 				fmt.Scan(&katakunci)
-				warnaBinarySearchAsc(daftarToko, jumlahData, katakunci)
+				warnaBinarySearchAsc(&daftarToko, jumlahData, katakunci)
 			} else if pilih4 == 2 {
 				fmt.Print("Warna yang dicari: ")
 				fmt.Scan(&katakunci)
-				warnaBinarySearchDesc(daftarToko, jumlahData, katakunci)
+				warnaBinarySearchDesc(&daftarToko, jumlahData, katakunci)
 			} else if pilih4 == 0 {
 				clearScreen()
 				menu_searching()
@@ -370,7 +370,7 @@ func ukuranBinarySearchAsc(A *datapakaian, n int, x string){
 			batasKanan++
 		}
 		
-		cetakData(A, batasKiri, batasKanan)
+		cetakData(daftarToko, batasKiri, batasKanan)
 		
 	} else {
 		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
@@ -411,7 +411,7 @@ func ukuranBinarySearchDesc(A *datapakaian, n int, x string){
 			batasKanan++
 		}
 		
-		cetakData(A, batasKiri, batasKanan)
+		cetakData(daftarToko, batasKiri, batasKanan)
 		
 	} else {
 		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
@@ -452,7 +452,7 @@ func warnaBinarySearchAsc(A *datapakaian, n int, x string){
 			batasKanan++
 		}
 		
-		cetakData(A, batasKiri, batasKanan)
+		cetakData(daftarToko, batasKiri, batasKanan)
 		
 	} else {
 		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
@@ -493,7 +493,7 @@ func warnaBinarySearchDesc(A *datapakaian, n int, x string){
 			batasKanan++
 		}
 		
-		cetakData(A, batasKiri, batasKanan)
+		cetakData(daftarToko, batasKiri, batasKanan)
 		
 	} else {
 		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
@@ -651,14 +651,19 @@ func menuSorting(){
 //Muti
 //ukuran selection sort asc 
 func ukuranSelecSortAsc(A *datapakaian, n int){
+	/* 
+	FS : Array A dan banyaknya elemen n terdefinisi. Procedure ukuranSelecSortAsc akan mengolah data 
+		dengan selection sort secara ascending untuk kategori ukuran. 
+	IS : Procedure akan mengubah data menjadi data terurut menaik (ascending).
+	*/
 	var i, idx, pass int 
 	var temp pakaian 
 	
-	pass = 0
+	pass = 1
 	
-	for pass < n - 1 {
-		idx = pass
-		i = pass + 1
+	for pass <= n {
+		idx = pass - 1
+		i = pass 
 		
 		for i < n {
 			//biar terurut XS-S-M-L-XL
@@ -668,8 +673,8 @@ func ukuranSelecSortAsc(A *datapakaian, n int){
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass - 1]
+		(*A)[pass - 1] = (*A)[idx]
 		(*A)[idx] = temp 
 		
 		pass = pass + 1
@@ -678,14 +683,18 @@ func ukuranSelecSortAsc(A *datapakaian, n int){
 
 //ukuran selection sort desc 
 func ukuranSelecSortDesc(A *datapakaian, n int){
+	/*
+	FS : 
+	IS : 
+	*/
 	var i, idx, pass int 
 	var temp pakaian 
 	
-	pass = 0
+	pass = 1
 	
-	for pass < n - 1 {
-		idx = pass
-		i = pass + 1
+	for pass <= n  {
+		idx = pass - 1
+		i = pass 
 		
 		for i < n {
 			//biar terurut XS-S-M-L-XL
@@ -695,8 +704,8 @@ func ukuranSelecSortDesc(A *datapakaian, n int){
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass - 1]
+		(*A)[pass - 1] = (*A)[idx]
 		(*A)[idx] = temp 
 		
 		pass = pass + 1
@@ -705,14 +714,18 @@ func ukuranSelecSortDesc(A *datapakaian, n int){
 
 //warna selection sort asc 
 func warnaSelecSortAsc(A *datapakaian, n int){
+	/*
+	FS : 
+	IS : 
+	*/
 	var i, idx, pass int 
 	var temp pakaian 
 	
-	pass = 0
+	pass = 1
 	
-	for pass < n - 1 {
-		idx = pass
-		i = pass + 1
+	for pass <= n {
+		idx = pass - 1
+		i = pass
 		
 		for i < n {
 			
@@ -722,8 +735,8 @@ func warnaSelecSortAsc(A *datapakaian, n int){
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass - 1]
+		(*A)[pass - 1] = (*A)[idx]
 		(*A)[idx] = temp 
 		
 		pass = pass + 1
@@ -732,14 +745,18 @@ func warnaSelecSortAsc(A *datapakaian, n int){
 
 //warna selection desc  
 func warnaSelecSortDesc(A *datapakaian, n int){
+	/*
+	FS : 
+	IS : 
+	*/
 	var i, idx, pass int 
 	var temp pakaian 
 	
-	pass = 0
+	pass = 1
 	
-	for pass < n - 1 {
-		idx = pass
-		i = pass + 1
+	for pass <= n {
+		idx = pass - 1
+		i = pass 
 		
 		for i < n {
 			
@@ -749,8 +766,8 @@ func warnaSelecSortDesc(A *datapakaian, n int){
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass - 1]
+		(*A)[pass - 1] = (*A)[idx]
 		(*A)[idx] = temp 
 		
 		pass = pass + 1
@@ -839,7 +856,6 @@ func warnaInsertDesc(A *datapakaian, n int){
 		(*A)[i+1] = temp
 		pass++
 	}
-}
 }
 
 
