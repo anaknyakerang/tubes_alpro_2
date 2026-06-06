@@ -55,7 +55,7 @@ func cetakData(A datapakaian, awal int, akhir int) {
 // menu tambah data
 func menutambahData() {
 	var pilih int
-	fmt.Println()
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|          Menu Tambah Data Pakaian        |")
@@ -77,11 +77,46 @@ func menutambahData() {
 	}
 }
 
+// fungsi  untuk menambahkan pakaian ke daftar pakaian
+func tambahPakaian(data *datapakaian) {
+	var inputStok int
+	data[jumlahData].id = jumlahData + 1
+	fmt.Println("Fitur Tambah Pakaian")
+	fmt.Print("Masukkan Nama   : ")
+	fmt.Scan(&data[jumlahData].nama)
+
+	fmt.Print("Masukkan Warna  : ")
+	fmt.Scan(&data[jumlahData].warna)
+
+	fmt.Print("Masukkan Ukuran : ")
+	fmt.Scan(&data[jumlahData].ukuran)
+
+	fmt.Print("Masukkan Stok   : ")
+	fmt.Scan(&inputStok)
+	for !isNumber(inputStok) {
+		fmt.Println("Input Tidak Valid, Masukkan Stok yang benar: ")
+		fmt.Print("Masukkan Stok   : ")
+		fmt.Scan(&inputStok)
+	}
+	data[jumlahData].stok = inputStok
+	jumlahData++
+}
+func tambahPakaianMany(data *datapakaian) {
+	var inputData int
+	fmt.Print("Masukkan Banyak Data : ")
+	fmt.Scan(&inputData)
+	for inputData != 0 {
+		tambahPakaian(data)
+		inputData--
+	}
+}
+
 // //kay
 // //menu edit data
 func menuEditData() {
 	var pilih int
-	fmt.Println()
+
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|           Menu Edit Data Pakaian         |")
@@ -96,11 +131,75 @@ func menuEditData() {
 	}
 }
 
+// fungsi untuk mengedit data berdasarkan id
+func editDatabyId(data *datapakaian) {
+	var id, stok int
+	var nama, warna, ukuran string
+	fmt.Print("Masukkan Id   	: ")
+	fmt.Scan(&id)
+	for !findId(data, id) {
+		fmt.Println("Not Found!")
+		fmt.Print("Masukkan Id   	: ")
+		fmt.Scan(&id)
+	}
+	fmt.Print("Masukkan Nama   	: ")
+	fmt.Scan(&nama)
+	fmt.Print("Masukkan Stok   	: ")
+	fmt.Scan(&stok)
+	fmt.Print("Masukkan Warna   : ")
+	fmt.Scan(&warna)
+	fmt.Print("Masukkan Ukuran  : ")
+	fmt.Scan(&ukuran)
+	data[id-1].nama = nama
+	data[id-1].stok = stok
+	data[id-1].warna = warna
+	data[id-1].ukuran = ukuran
+}
+
+// fungsi untuk mencari id
+func findId(data *datapakaian, id int) bool {
+	var left, right, mid int
+	var found bool
+	found = false
+	right = jumlahData - 1
+	for left <= right && !found {
+		mid = (left + right) / 2
+		if data[mid].id == id {
+			found = true
+		} else if data[mid].id > id {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return found
+}
+
+// fungsi untuk mencari indeks berdasarkan id
+func findIdxbyId(data *datapakaian, id int) int {
+	var left, right, mid int
+	var idxfound int
+	idxfound = -1
+	right = jumlahData - 1
+	for left <= right && idxfound == -1 {
+		mid = (left + right) / 2
+		if data[mid].id == id {
+			idxfound = mid
+		} else if data[mid].id > id {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return idxfound
+}
+
 // //kay
 // //menu hapus data
 func hapusData() {
 	var pilih, id int
-	fmt.Println()
+
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|          Menu Hapus Data Pakaian         |")
@@ -261,7 +360,7 @@ func daftarpakaian() {
 	var i int
 
 	clearScreen()
-	
+
 	fmt.Println("\n+-------+----------------------+-----------------+------------+-------+")
 	fmt.Printf("| %-5s | %-20s | %-15s | %-10s | %-5s |\n", "ID", "Nama Pakaian", "Warna", "Ukuran", "Stok")
 	fmt.Println("+-------+----------------------+-----------------+------------+-------+")
@@ -421,103 +520,6 @@ func bobotUkuran(ukuran string) int {
 		return 7
 	}
 	return 0 // Jika ada ukuran di luar itu
-}
-
-// fungsi  untuk menambahkan pakaian ke daftar pakaian
-func tambahPakaian(data *datapakaian) {
-	var inputStok int
-	data[jumlahData].id = jumlahData + 1
-	fmt.Println("Fitur Tambah Pakaian")
-	fmt.Print("Masukkan Nama   : ")
-	fmt.Scan(&data[jumlahData].nama)
-
-	fmt.Print("Masukkan Warna  : ")
-	fmt.Scan(&data[jumlahData].warna)
-
-	fmt.Print("Masukkan Ukuran : ")
-	fmt.Scan(&data[jumlahData].ukuran)
-
-	fmt.Print("Masukkan Stok   : ")
-	fmt.Scan(&inputStok)
-	for !isNumber(inputStok) {
-		fmt.Println("Input Tidak Valid, Masukkan Stok yang benar: ")
-		fmt.Print("Masukkan Stok   : ")
-		fmt.Scan(&inputStok)
-	}
-	data[jumlahData].stok = inputStok
-	jumlahData++
-}
-func tambahPakaianMany(data *datapakaian) {
-	var inputData int
-	fmt.Print("Masukkan Banyak Data : ")
-	fmt.Scan(&inputData)
-	for inputData != 0 {
-		tambahPakaian(data)
-		inputData--
-	}
-}
-
-// fungsi untuk mengedit data berdasarkan id
-func editDatabyId(data *datapakaian) {
-	var id, stok int
-	var nama, warna, ukuran string
-	fmt.Print("Masukkan Id   	: ")
-	fmt.Scan(&id)
-	for !findId(data, id) {
-		fmt.Println("Not Found!")
-		fmt.Print("Masukkan Id   	: ")
-		fmt.Scan(&id)
-	}
-	fmt.Print("Masukkan Nama   	: ")
-	fmt.Scan(&nama)
-	fmt.Print("Masukkan Stok   	: ")
-	fmt.Scan(&stok)
-	fmt.Print("Masukkan Warna   : ")
-	fmt.Scan(&warna)
-	fmt.Print("Masukkan Ukuran  : ")
-	fmt.Scan(&ukuran)
-	data[id-1].nama = nama
-	data[id-1].stok = stok
-	data[id-1].warna = warna
-	data[id-1].ukuran = ukuran
-}
-
-// fungsi untuk mencari id
-func findId(data *datapakaian, id int) bool {
-	var left, right, mid int
-	var found bool
-	found = false
-	right = jumlahData - 1
-	for left <= right && !found {
-		mid = (left + right) / 2
-		if data[mid].id == id {
-			found = true
-		} else if data[mid].id > id {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return found
-}
-
-// fungsi untuk mencari indeks berdasarkan id
-func findIdxbyId(data *datapakaian, id int) int {
-	var left, right, mid int
-	var idxfound int
-	idxfound = -1
-	right = jumlahData - 1
-	for left <= right && idxfound == -1 {
-		mid = (left + right) / 2
-		if data[mid].id == id {
-			idxfound = mid
-		} else if data[mid].id > id {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	return idxfound
 }
 
 // mencari ukuran menggunakan sequential search
@@ -1044,18 +1046,58 @@ func warnaInsertDesc(A *datapakaian, n int) {
 	}
 }
 
-func menuExit() {
-	var input string
-	fmt.Println("Apakah anda yakin akan keluar dari Aplikasi ini ")
+func menuExit() bool {
+	var input int
+
+	clearScreen()
+
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("|              Anda Berada Di              |")
+	fmt.Println("|                Menu Exit                 |")
+	fmt.Println("+------------------------------------------+")
+	fmt.Printf("| %-40s |\n", "KAMU YAKIN ?!")
+	fmt.Printf("| %-40s |\n", "[1] Yes")
+	fmt.Printf("| %-40s |\n", "[0] No")
+	fmt.Println("+------------------------------------------+")
+	fmt.Print("Pilih [1 / 0]? ")
 	fmt.Scan(&input)
-	if input == "ya" {
+
+	if input == 1 {
 		clearScreen()
-		fmt.Println("Terimakasih telah menggunakan aplikasi ini >_<")
-	} else if input == "Tidak" {
-		menu_utama()
-		fmt.Println()
+		fmt.Println("+------------------------------------------+")
+		fmt.Println("|              Anda Berada Di              |")
+		fmt.Println("|                Menu Exit                 |")
+		fmt.Println("+------------------------------------------+")
+		fmt.Printf("| %-40s |\n", "BENERAN ?!")
+		fmt.Printf("| %-40s |\n", "[1] Yes")
+		fmt.Printf("| %-40s |\n", "[0] No")
+		fmt.Println("+------------------------------------------+")
+		fmt.Print("Pilih [1 / 0]? ")
+		fmt.Scan(&input)
+
+		if input == 1 {
+			clearScreen()
+
+			fmt.Println("-----------------------------------------------------------------------------------")
+			fmt.Printf("| %-79s |\n", " ")
+			fmt.Printf("| %-50s |\n", "####### ##     ##    ###    ##    ## ##    ##    ##    ##  #######  ##     ##  ")
+			fmt.Printf("| %-50s |\n", "  ##    ##     ##   ## ##   ###   ## ##   ##      ##  ##  ##     ## ##     ##  ")
+			fmt.Printf("| %-50s |\n", "  ##    ##     ##  ##   ##  ####  ## ##  ##        ####   ##     ## ##     ##  ")
+			fmt.Printf("| %-50s |\n", "  ##    ######### ##     ## ## ## ## #####          ##    ##     ## ##     ##  ")
+			fmt.Printf("| %-50s |\n", "  ##    ##     ## ######### ##  #### ##  ##         ##    ##     ## ##     ##  ")
+			fmt.Printf("| %-50s |\n", "  ##    ##     ## ##     ## ##   ### ##   ##        ##    ##     ## ##     ##  ")
+			fmt.Printf("| %-50s |\n", "  ##    ##     ## ##     ## ##    ## ##    ##       ##     #######   #######   ")
+			fmt.Printf("| %-79s |\n", " ")
+			fmt.Println("-----------------------------------------------------------------------------------")
+			fmt.Println("\n          Terima kasih telah menggunakan Aplikasi Manajemen Fashion!            ")
+			fmt.Println("                       Program otomatis akan ditutup. ")
+			fmt.Println()
+
+			return true
+		}
 	}
 
+	return false
 }
 
 // hapus data sebelum
@@ -1077,6 +1119,7 @@ func menu_rekomendasi() {
 
 func main() {
 	var pilih int
+	var konfirmasiExit bool
 
 	inisialisasiData()
 
@@ -1099,8 +1142,11 @@ func main() {
 		case 7:
 			menu_rekomendasi()
 		case 0:
-			menuExit()
-			return
+			konfirmasiExit = menuExit() //tanya user
+			if konfirmasiExit {
+				return //kalo true, aplikasi bakalan keluar
+			}
+			//kalo false, aplikasi bakalan balik ke menu utama
 		default:
 			fmt.Println("Pilihan tidak valid, silahkan coba lagi")
 		}
