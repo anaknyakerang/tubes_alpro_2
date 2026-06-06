@@ -22,13 +22,13 @@ func menu_utama() {
 	fmt.Println("|     Selamat Datang Di       |")
 	fmt.Println("|  Aplikasi Manajemen Fashion |")
 	fmt.Println("+-----------------------------+")
-	fmt.Printf("| %-40s |\n", "[1] Daftar Data Pakaian")
-	fmt.Printf("| %-40s |\n", "[2] Tambah  Data Pakaian")
-	fmt.Printf("| %-40s |\n", "[3] Edit Data Pakaian")
-	fmt.Printf("| %-40s |\n", "[4] Hapus Data Pakaian")
-	fmt.Printf("| %-40s |\n", "[5] Cari Data Pakaian")
-	fmt.Printf("| %-40s |\n", "[6] Sortir Data Pakaian")
-	fmt.Printf("| %-40s |\n", "[0] Exit")
+	fmt.Printf("| %-27s |\n", "[1] Daftar Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[2] Tambah  Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[3] Edit Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[4] Hapus Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[5] Cari Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[6] Sortir Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[0] Exit")
 	fmt.Println("+-----------------------------+")
 	fmt.Print("Pilih [0 - 6]?")
 }
@@ -115,8 +115,40 @@ func hapusData() {
 	} else if pilih == 2 {
 		hapusSemua()
 	}
-
 }
+
+func hapusDatabyID(A *datapakaian, n *int, id int) {
+	var idx, i int
+	if id == A[jumlahData-1].id {
+		*n = *n - 1
+	} else {
+		idx = findIdxbyId(A, id)
+		if idx == -1 {
+			hapusData()
+		}
+		i = idx
+		for i < *n-1 {
+			(*A)[i] = A[i+1]
+			i++
+		}
+		*n = *n - 1
+	}
+}
+
+func hapusSemua() {
+	var input string
+	fmt.Println("Apakah anda yakin akan manghapus data tersebut?iya/tidak")
+	fmt.Scan(&input)
+	if input == "iya" {
+		jumlahData = 0
+	} else if input == "tidak" {
+		hapusData()
+	} else {
+		fmt.Println("Input yang anda masukkan salah")
+		hapusSemua()
+	}
+}
+
 func inisialisasiData() {
 	daftarToko[0] = pakaian{id: 1, nama: "Kaos Polos", warna: "Merah", ukuran: "M", stok: 15}
 	daftarToko[1] = pakaian{id: 2, nama: "Kemeja Flanel", warna: "Biru", ukuran: "L", stok: 10}
@@ -279,15 +311,11 @@ func menu_searching() {
 		if pilih2 == 1 {
 			fmt.Print("Ukuran yang dicari: ")
 			fmt.Scan(&katakunci)
-			//Kayla
-			// Panggil fungsi pencarian sequential ukuran di sini
 			sequentialSearchbySize(daftarToko, jumlahData, katakunci)
 
 		} else if pilih2 == 2 {
 			fmt.Print("Warna yang dicari: ")
 			fmt.Scan(&katakunci)
-			//Kayla
-			// Panggil fungsi pencarian sequential warna di sini
 			sequentialSearchbyColor(daftarToko, jumlahData, katakunci)
 
 		}
@@ -322,10 +350,12 @@ func menu_searching() {
 				fmt.Print("Ukuran yang dicari (Binary Asc): ")
 				fmt.Scan(&katakunci)
 				ukuranBinarySearchAsc(&daftarToko, jumlahData, katakunci)
+
 			} else if pilih3 == 2 {
 				fmt.Print("Ukuran yang dicari (Binary Desc): ")
 				fmt.Scan(&katakunci)
 				ukuranBinarySearchDesc(&daftarToko, jumlahData, katakunci)
+
 			} else if pilih3 == 0 {
 				clearScreen()
 				menu_searching()
@@ -348,10 +378,12 @@ func menu_searching() {
 				fmt.Print("Warna yang dicari: ")
 				fmt.Scan(&katakunci)
 				warnaBinarySearchAsc(&daftarToko, jumlahData, katakunci)
+
 			} else if pilih4 == 2 {
 				fmt.Print("Warna yang dicari: ")
 				fmt.Scan(&katakunci)
 				warnaBinarySearchDesc(&daftarToko, jumlahData, katakunci)
+
 			} else if pilih4 == 0 {
 				clearScreen()
 				menu_searching()
@@ -490,7 +522,6 @@ func sequentialSearchbySize(data datapakaian, n int, ukuran string) int {
 	i = 0
 	for i > n && found == -1 {
 		if bobotUkuran(data[i].ukuran) == bobotUkuran(ukuran) {
-			found = i
 		}
 		i++
 	}
@@ -535,12 +566,12 @@ func ukuranBinarySearchAsc(A *datapakaian, n int, x string) {
 		batasKiri = idx
 		batasKanan = idx
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kiri
 		for batasKiri > 0 && (*A)[batasKiri-1].ukuran == x {
 			batasKiri--
 		}
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kanan
 		for batasKanan < n-1 && (*A)[batasKanan+1].ukuran == x {
 			batasKanan++
 		}
@@ -576,12 +607,12 @@ func ukuranBinarySearchDesc(A *datapakaian, n int, x string) {
 		batasKiri = idx
 		batasKanan = idx
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kiri
 		for batasKiri > 0 && (*A)[batasKiri-1].ukuran == x {
 			batasKiri--
 		}
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kanan
 		for batasKanan < n-1 && (*A)[batasKanan+1].ukuran == x {
 			batasKanan++
 		}
@@ -617,12 +648,12 @@ func warnaBinarySearchAsc(A *datapakaian, n int, x string) {
 		batasKiri = idx
 		batasKanan = idx
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kiri
 		for batasKiri > 0 && (*A)[batasKiri-1].warna == x {
 			batasKiri--
 		}
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kanan
 		for batasKanan < n-1 && (*A)[batasKanan+1].warna == x {
 			batasKanan++
 		}
@@ -658,12 +689,12 @@ func warnaBinarySearchDesc(A *datapakaian, n int, x string) {
 		batasKiri = idx
 		batasKanan = idx
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kiri
 		for batasKiri > 0 && (*A)[batasKiri-1].warna == x {
 			batasKiri--
 		}
 
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan tanpa break
+		// Cari tahu seberapa jauh data yang sama di sebelah kanan
 		for batasKanan < n-1 && (*A)[batasKanan+1].warna == x {
 			batasKanan++
 		}
@@ -743,10 +774,10 @@ func menuSorting() {
 			fmt.Scan(&pilih21)
 
 			if pilih21 == 1 {
-				// Panggil fungsi selection sort warna di sini
+				warnaSelecSortAsc(&daftarToko, jumlahData)
 				cetakData(daftarToko, 0, jumlahData-1)
 			} else if pilih21 == 2 {
-				// Panggil fungsi selection sort warna di sini
+				warnaSelecSortDesc(&daftarToko, jumlahData)
 				cetakData(daftarToko, 0, jumlahData-1)
 			} else if pilih21 == 0 {
 				clearScreen()
@@ -833,11 +864,11 @@ func ukuranSelecSortAsc(A *datapakaian, n int) {
 	var i, idx, pass int
 	var temp pakaian
 
-	pass = 0
+	pass = 1
 
 	for pass < n-1 {
-		idx = pass
-		i = pass + 1
+		idx = pass - 1
+		i = pass
 
 		for i < n {
 			//biar terurut XS-S-M-L-XL
@@ -847,8 +878,8 @@ func ukuranSelecSortAsc(A *datapakaian, n int) {
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass-1]
+		(*A)[pass-1] = (*A)[idx]
 		(*A)[idx] = temp
 
 		pass = pass + 1
@@ -860,11 +891,11 @@ func ukuranSelecSortDesc(A *datapakaian, n int) {
 	var i, idx, pass int
 	var temp pakaian
 
-	pass = 0
+	pass = 1
 
 	for pass < n-1 {
-		idx = pass
-		i = pass + 1
+		idx = pass - 1
+		i = pass
 
 		for i < n {
 			//biar terurut XS-S-M-L-XL
@@ -874,8 +905,8 @@ func ukuranSelecSortDesc(A *datapakaian, n int) {
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass-1]
+		(*A)[pass-1] = (*A)[idx]
 		(*A)[idx] = temp
 
 		pass = pass + 1
@@ -887,11 +918,11 @@ func warnaSelecSortAsc(A *datapakaian, n int) {
 	var i, idx, pass int
 	var temp pakaian
 
-	pass = 0
+	pass = 1
 
-	for pass < n-1 {
-		idx = pass
-		i = pass + 1
+	for pass <= n {
+		idx = pass - 1
+		i = pass
 
 		for i < n {
 
@@ -901,8 +932,8 @@ func warnaSelecSortAsc(A *datapakaian, n int) {
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass-1]
+		(*A)[pass-1] = (*A)[idx]
 		(*A)[idx] = temp
 
 		pass = pass + 1
@@ -914,11 +945,11 @@ func warnaSelecSortDesc(A *datapakaian, n int) {
 	var i, idx, pass int
 	var temp pakaian
 
-	pass = 0
+	pass = 1
 
-	for pass < n-1 {
-		idx = pass
-		i = pass + 1
+	for pass <= n {
+		idx = pass - 1
+		i = pass
 
 		for i < n {
 
@@ -928,8 +959,8 @@ func warnaSelecSortDesc(A *datapakaian, n int) {
 			i = i + 1
 		}
 		//swap
-		temp = (*A)[pass]
-		(*A)[pass] = (*A)[idx]
+		temp = (*A)[pass-1]
+		(*A)[pass-1] = (*A)[idx]
 		(*A)[idx] = temp
 
 		pass = pass + 1
@@ -956,6 +987,9 @@ func ukuranInsertAsc(A *datapakaian, n int) {
 
 // ukuran insertion sort desc
 func ukuranInsertDesc(A *datapakaian, n int) {
+	/*
+
+	*/
 	var i, pass int
 	var temp pakaian
 	pass = 1
@@ -1002,37 +1036,6 @@ func warnaInsertDesc(A *datapakaian, n int) {
 		}
 		(*A)[i+1] = temp
 		pass++
-	}
-}
-
-func hapusDatabyID(A *datapakaian, n *int, id int) {
-	var idx, i int
-	if id == A[jumlahData-1].id {
-		*n = *n - 1
-	} else {
-		idx = findIdxbyId(A, id)
-		if idx == -1 {
-			hapusData()
-		}
-		i = idx
-		for i < *n-1 {
-			(*A)[i] = A[i+1]
-			i++
-		}
-		*n = *n - 1
-	}
-}
-func hapusSemua() {
-	var input string
-	fmt.Println("Apakah anda yakin akan manghapus data tersebut?iya/tidak")
-	fmt.Scan(&input)
-	if input == "iya" {
-		jumlahData = 0
-	} else if input == "tidak" {
-		hapusData()
-	} else {
-		fmt.Println("Input yang anda masukkan salah")
-		hapusSemua()
 	}
 }
 
