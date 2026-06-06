@@ -579,7 +579,7 @@ func ukuranBinarySearchAsc(A *datapakaian, n int, x string) {
 		cetakData(daftarToko, batasKiri, batasKanan)
 
 	} else {
-		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
+		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
 	}
 }
 
@@ -620,7 +620,7 @@ func ukuranBinarySearchDesc(A *datapakaian, n int, x string) {
 		cetakData(daftarToko, batasKiri, batasKanan)
 
 	} else {
-		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
+		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
 	}
 }
 
@@ -661,7 +661,7 @@ func warnaBinarySearchAsc(A *datapakaian, n int, x string) {
 		cetakData(daftarToko, batasKiri, batasKanan)
 
 	} else {
-		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
+		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
 	}
 }
 
@@ -702,7 +702,7 @@ func warnaBinarySearchDesc(A *datapakaian, n int, x string) {
 		cetakData(daftarToko, batasKiri, batasKanan)
 
 	} else {
-		fmt.Println("\nData dengan ukuran", x, "tidak ditemukan.\n")
+		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
 	}
 }
 
