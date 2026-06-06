@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"os/exec"
 )
 
 // mencari produk berdasarkan ukuran / warna
@@ -26,8 +28,9 @@ func menu_utama() {
 	fmt.Printf("| %-27s |\n", "[2] Tambah  Data Pakaian")
 	fmt.Printf("| %-27s |\n", "[3] Edit Data Pakaian")
 	fmt.Printf("| %-27s |\n", "[4] Hapus Data Pakaian")
-	fmt.Printf("| %-27s |\n", "[5] Cari Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[5] Search Data Pakaian")
 	fmt.Printf("| %-27s |\n", "[6] Sortir Data Pakaian")
+	fmt.Printf("| %-27s |\n", "[7] Rekomendasi Fashion")
 	fmt.Printf("| %-27s |\n", "[0] Exit")
 	fmt.Println("+-----------------------------+")
 	fmt.Print("Pilih [0 - 6]?")
@@ -257,6 +260,8 @@ func inisialisasiData() {
 func daftarpakaian() {
 	var i int
 
+	clearScreen()
+	
 	fmt.Println("\n+-------+----------------------+-----------------+------------+-------+")
 	fmt.Printf("| %-5s | %-20s | %-15s | %-10s | %-5s |\n", "ID", "Nama Pakaian", "Warna", "Ukuran", "Stok")
 	fmt.Println("+-------+----------------------+-----------------+------------+-------+")
@@ -1053,7 +1058,20 @@ func menuExit() {
 
 }
 
+// hapus data sebelum
 func clearScreen() {
+	/*Sub program clearScreen merupakan sub program yang akan menghapus data sebelumnya, sehingga
+	  outputnya hanya berupa menu yang saat itu dijalankan.*/
+	cmd := exec.Command("cmd", "/c", "cls")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}
+
+// menu rekomendasi
+func menu_rekomendasi() {
+	/* Sub program menu_rekomendasi merupakan sub program menu rekomendasi fashion yang dicari berdasarkan
+	   kondisi cuaca, warna favorit user, dan acara yang akan dihadiri oleh user.
+	*/
 
 }
 
@@ -1078,6 +1096,8 @@ func main() {
 			menu_searching()
 		case 6:
 			menuSorting()
+		case 7:
+			menu_rekomendasi()
 		case 0:
 			menuExit()
 			return
