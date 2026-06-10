@@ -197,15 +197,16 @@ func findIdxbyId(data *datapakaian, id int) int {
 	var left, right, mid int
 	var idxfound int
 	idxfound = -1
+	left = 0
 	right = jumlahData - 1
 	for left <= right && idxfound == -1 {
 		mid = (left + right) / 2
-		if data[mid].id == id {
+		if (*data)[mid].id == id {
 			idxfound = mid
-		} else if data[mid].id > id {
-			left = mid + 1
-		} else {
+		} else if (*data)[mid].id > id {
 			right = mid - 1
+		} else {
+			left = mid + 1
 		}
 	}
 	return idxfound
@@ -213,10 +214,10 @@ func findIdxbyId(data *datapakaian, id int) int {
 
 // //kay
 // //menu hapus data
-func hapusData() {
+func menuhapusData() {
 	var pilih, id int
 
-	clearScreen()
+	//clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|          Menu Hapus Data Pakaian         |")
@@ -233,24 +234,38 @@ func hapusData() {
 		hapusDatabyID(&daftarToko, &jumlahData, id)
 	} else if pilih == 2 {
 		hapusSemua()
+	} else if pilih == 0 {
+		menu_utama()
+	} else {
+		menuhapusData()
 	}
 }
 
 func hapusDatabyID(A *datapakaian, n *int, id int) {
 	var idx, i int
-	if id == A[jumlahData-1].id {
-		*n = *n - 1
-	} else {
-		idx = findIdxbyId(A, id)
-		if idx == -1 {
-			hapusData()
+	var opsi string
+	daftarpakaian()
+	fmt.Print("Apakah Anda yakin ingin menghapus data tersebut?")
+	fmt.Scan(&opsi)
+	if opsi == "tidak" {
+		menuhapusData()
+	} else if opsi == "iya" {
+		if id == A[jumlahData-1].id {
+			*n = *n - 1
+		} else {
+			idx = findIdxbyId(A, id)
+			if idx == -1 {
+				fmt.Println("ID tidak ada!")
+				menuhapusData()
+			}
+			i = idx
+			for i < *n-1 {
+				(*A)[i] = A[i+1]
+				i++
+			}
+			*n = *n - 1
 		}
-		i = idx
-		for i < *n-1 {
-			(*A)[i] = A[i+1]
-			i++
-		}
-		*n = *n - 1
+		daftarpakaian()
 	}
 }
 
@@ -261,7 +276,7 @@ func hapusSemua() {
 	if input == "iya" {
 		jumlahData = 0
 	} else if input == "tidak" {
-		hapusData()
+		menuhapusData()
 	} else {
 		fmt.Println("Input yang anda masukkan salah")
 		hapusSemua()
@@ -1152,7 +1167,7 @@ func main() {
 		case 3:
 			menuEditData()
 		case 4:
-			hapusData()
+			menuhapusData()
 		case 5:
 			menu_searching()
 		case 6:
