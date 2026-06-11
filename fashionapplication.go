@@ -26,7 +26,6 @@ func main() {
 	inisialisasiData()
 
 	for {
-		clearScreen()
 		menu_utama()
 		fmt.Scan(&pilih)
 		switch pilih {
@@ -62,7 +61,7 @@ func icon() {
 	F.S.: Layar terminal menampilkan logo raksasa "KAYRA" di dalam kotak tabel, 
 	dan program dalam kondisi tertahan (jeda) sampai user mengetik "ENTER".
 	*/
-	var jeda string 
+	var jeda int 
 
 	clearScreen() 
 	
@@ -80,9 +79,11 @@ func icon() {
 	fmt.Printf("| %-51s |\n", " ")
 	fmt.Println("+-----------------------------------------------------+")
 	fmt.Println()
-	fmt.Println("          [ Ketik ENTER Untuk Masuk Aplikasi ]        ")
+	fmt.Println("          [ Ketik 1 Untuk Masuk Aplikasi ]        ")
 	
 	fmt.Scanln(&jeda) 
+
+	clearScreen()
 }
 
 func menu_utama() {
@@ -97,7 +98,7 @@ func menu_utama() {
 	fmt.Println("|       Aplikasi Manajemen Fashion     |")
 	fmt.Println("+--------------------------------------+")
 	fmt.Printf("| %-36s |\n", "[1] Daftar Data Pakaian")
-	fmt.Printf("| %-36s |\n", "[2] Tambah  Data Pakaian")
+	fmt.Printf("| %-36s |\n", "[2] Tambah Data Pakaian")
 	fmt.Printf("| %-36s |\n", "[3] Edit Data Pakaian")
 	fmt.Printf("| %-36s |\n", "[4] Hapus Data Pakaian")
 	fmt.Printf("| %-36s |\n", "[5] Search Data Pakaian")
@@ -106,14 +107,6 @@ func menu_utama() {
 	fmt.Printf("| %-36s |\n", "[0] Exit")
 	fmt.Println("+--------------------------------------+")
 	fmt.Print("Pilih [0 - 7]?")
-}
-
-// Ngebalikin (???!)
-func isNumber(input int) bool {
-	if input >= 0 {
-		return true
-	}
-	return false
 }
 
 // cetak Data
@@ -136,70 +129,121 @@ func cetakData(A datapakaian, awal int, akhir int) {
 	fmt.Println("+-------+----------------------+-----------------+------------+-------+\n")
 }
 
-// kay
 // menu tambah data
 func menutambahData() {
-	var pilih int
+	/*
+	IS : Menampilkan menu untuk tambah data.
+	FS : Menampilkan opsi untuk memulai penambahan. Jika user input 1 (true), maka 
+	sistem akan melanjutkan eksekusi dengan memanggil prosedur tambahPakaian. 
+	Jika user input 0 (false) maka sistem akan mengembalikan ke menu utama.
+	*/
+
 	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
-	fmt.Println("|          Menu Tambah Data Pakaian        |")
+	fmt.Println("|         Menu Tambah Data Pakaian         |")
 	fmt.Println("+------------------------------------------+")
-	fmt.Printf("| %-40s |\n", "[1] Tambah Satu Data")
-	fmt.Printf("| %-40s |\n", "[2] Tambah Beberapa Data")
+	fmt.Printf("| %-40s |\n", "[1] Tambah Data")
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
-	fmt.Print("Pilih [0 - 2]?")
-
+	
+	var pilih int
+	fmt.Print("Pilih [0 / 1]? ")
 	fmt.Scan(&pilih)
 
 	if pilih == 1 {
+		// Langsung panggil fungsi gabungan kita
 		tambahPakaian(&daftarToko)
-
-	} else if pilih >= 2 {
-		tambahPakaianMany(&daftarToko)
-
 	}
+	// Jika pilih 0, otomatis keluar dari fungsi ini dan balik ke main loop
 }
 
-// fungsi  untuk menambahkan pakaian ke daftar pakaian
 func tambahPakaian(data *datapakaian) {
-	var inputStok int
-	data[jumlahData].id = jumlahData + 1
-	fmt.Println("Fitur Tambah Pakaian")
-	fmt.Print("Masukkan Nama   : ")
-	fmt.Scan(&data[jumlahData].nama)
+	/*
+	IS : Terdefinisi alamat memori pointer array data yang menampung rekaman data pakaian saat ini, 
+	serta variabel global jumlahData yang menyimpan total data yang sudah tersimpan sebelum 
+	operasi penambahan dilakukan.
+	FS : User menginput elemen baru sebanyak banyakData. Setiap data baru akan mendapatkan ID unik yang
+	berurutan dan nilai variabel jumlahData akan bertambah otomatis sebanyak data yang berhasil ditambah.
+	*/
 
-	fmt.Print("Masukkan Warna  : ")
-	fmt.Scan(&data[jumlahData].warna)
+	clearScreen()
+	fmt.Println("========================================")
+	fmt.Println("          FITUR TAMBAH PAKAIAN          ")
+	fmt.Println("========================================")
+	
+	var banyakData, i, inputStok int
+	var jeda int 
 
-	fmt.Print("Masukkan Ukuran : ")
-	fmt.Scan(&data[jumlahData].ukuran)
+	fmt.Print("Mau menambah berapa data pakaian? ")
+	fmt.Scan(&banyakData)
+	
+	// Validasi jika user iseng menginput angka 0 atau minus
+	if banyakData <= 0 {
+		fmt.Println("\nJumlah data tidak valid. Batal menambah data.")
+		return
+	}
 
-	fmt.Print("Masukkan Stok   : ")
-	fmt.Scan(&inputStok)
-	for !isNumber(inputStok) {
-		fmt.Println("Input Tidak Valid, Masukkan Stok yang benar: ")
+	// Melakukan perulangan sebanyak jumlah data yang diinginkan user
+	for i = 0; i < banyakData; i++ {
+		fmt.Printf("\n--- Menginput Data ke-%d dari %d ---\n", i+1, banyakData)
+		
+		// Otomatis generate ID berdasarkan jumlah data saat ini
+		data[jumlahData].id = jumlahData + 1
+		
+		fmt.Print("Masukkan Nama Pakaian  : ")
+		fmt.Scan(&data[jumlahData].nama)
+
+		fmt.Print("Masukkan Warna  : ")
+		fmt.Scan(&data[jumlahData].warna)
+
+		fmt.Print("Masukkan Ukuran : ")
+		fmt.Scan(&data[jumlahData].ukuran)
+
 		fmt.Print("Masukkan Stok   : ")
 		fmt.Scan(&inputStok)
+		
+		for !isNumber(inputStok) {
+			fmt.Println("Input Tidak Valid, Masukkan Stok yang benar!")
+			fmt.Print("Masukkan Stok   : ")
+			fmt.Scan(&inputStok)
+		}
+		data[jumlahData].stok = inputStok
+		
+		// Menaikkan jumlahData global setiap kali 1 baju sukses diinput
+		jumlahData++ 
 	}
-	data[jumlahData].stok = inputStok
-	jumlahData++
+	
+	fmt.Println("\n========================================")
+	fmt.Printf(" Berhasil menambahkan %d data pakaian!\n", banyakData)
+	fmt.Println("========================================")
+	
+	// Beri jeda Enter agar user bisa melihat pesan suksesnya
+	fmt.Print("Ketik 1 untuk kembali...")
+	fmt.Scan(&jeda)
+
+	clearScreen()
 }
 
-func tambahPakaianMany(data *datapakaian) {
-	var inputData int
-	fmt.Print("Masukkan Banyak Data : ")
-	fmt.Scan(&inputData)
-	for inputData != 0 {
-		tambahPakaian(data)
-		inputData--
+//isNumber 
+func isNumber(input int) bool {
+	/*
+
+	*/
+
+	if input >= 0 {
+		return true
 	}
+	return false
 }
 
-// kay
 // menu edit data
 func menuEditData() {
+	/*
+	IS : 
+	FS : 
+	*/
+
 	var pilih int
 
 	clearScreen()
@@ -207,10 +251,10 @@ func menuEditData() {
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|           Menu Edit Data Pakaian         |")
 	fmt.Println("+------------------------------------------+")
-	fmt.Printf("| %-40s |\n", "[1] Edit Data Berdasarkan ID")
+	fmt.Printf("| %-40s |\n", "[1] Edit Data")
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
-	fmt.Print("Pilih [0 - 1]? ")
+	fmt.Print("Pilih [0 / 1]? ")
 	fmt.Scan(&pilih)
 	if pilih == 1 {
 		editDatabyId(&daftarToko)
@@ -219,6 +263,11 @@ func menuEditData() {
 
 // fungsi untuk mengedit data berdasarkan id
 func editDatabyId(data *datapakaian) {
+	/*
+	IS : 
+	FS :
+	*/
+
 	var id, stok int
 	var nama, warna, ukuran string
 	fmt.Print("Masukkan Id   	: ")
@@ -244,6 +293,10 @@ func editDatabyId(data *datapakaian) {
 
 // fungsi untuk mencari id
 func findId(data *datapakaian, id int) bool {
+	/*
+
+	*/
+
 	var left, right, mid int
 	var found bool
 	found = false
@@ -263,6 +316,10 @@ func findId(data *datapakaian, id int) bool {
 
 // fungsi untuk mencari indeks berdasarkan id
 func findIdxbyId(data *datapakaian, id int) int {
+	/*
+
+	*/
+
 	var left, right, mid int
 	var idxfound int
 	idxfound = -1
@@ -281,79 +338,114 @@ func findIdxbyId(data *datapakaian, id int) int {
 	return idxfound
 }
 
-// kay
 // menu hapus data
 func menuhapusData() {
-	var pilih, id int
+	/*
+	IS : Menampilkan menu utama untuk menghapus data.
+	FS : Menampilkan opsi untuk memulai penghapusan. Jika user input 1 (true), maka 
+	sistem akan melanjutkan eksekusi dengan memanggil prosedur hapusDatabyID. 
+	Jika user input 0 (false) maka sistem akan mengembalikan ke menu utama.
+	*/
+
+	var pilih int
 
 	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|          Menu Hapus Data Pakaian         |")
 	fmt.Println("+------------------------------------------+")
-	fmt.Printf("| %-40s |\n", "[1] Hapus Data Berdasarkan ID")
-	fmt.Printf("| %-40s |\n", "[2] Hapus Semua Data")
+	fmt.Printf("| %-40s |\n", "[1] Hapus Data")
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
-	fmt.Print("Pilih [0 - 2]? ")
+	fmt.Print("Pilih [1 / 0]? ")
 	fmt.Scan(&pilih)
+
 	if pilih == 1 {
-		fmt.Print("Masukkan Id yang mau dihapus : ")
-		fmt.Scan(&id)
-		hapusDatabyID(&daftarToko, &jumlahData, id)
-	} else if pilih == 2 {
-		hapusSemua()
+		hapusDatabyID(&daftarToko, &jumlahData)
 	} else if pilih == 0 {
 		menu_utama()
-	} else {
-		menuhapusData()
-	}
+	} 
+	
 }
 
-func hapusDatabyID(A *datapakaian, n *int, id int) {
-	var idx, i int
+func hapusDatabyID(A *datapakaian, n *int) {
+	/*
+	IS : Terdefinisi array A dan banyaknya data pakaian sebagai n.
+	FS : Jika ID target yang diinput user ditemukan di dalam array A dan user mengonfirmasi 
+	dengan mengetik "iya", maka elemen data pada posisi tersebut akan dihapus, 
+	seluruh elemen di sebelah kanannya akan digeser satu langkah ke kiri untuk mengisi kekosongan, 
+	dan nilai penunjuk jumlah data (*n) otomatis dikurangi 1. Jika ID tidak ditemukan atau user membatalkan 
+	dengan mengetik "tidak".
+	*/
+
+	var idTarget, idx, jeda int
 	var opsi string
-	daftarpakaian()
-	fmt.Print("Apakah Anda yakin ingin menghapus data tersebut?")
-	fmt.Scan(&opsi)
-	if opsi == "tidak" {
+
+	clearScreen()
+	fmt.Println("==========================================")
+	fmt.Println("           FITUR HAPUS PAKAIAN            ")
+	fmt.Println("==========================================")
+	
+	// Input ID yang mau dieksekusi
+	fmt.Print("Masukkan ID pakaian yang mau dihapus: ")
+	fmt.Scan(&idTarget)
+	
+	// Validasi dulu, ID-nya beneran ada gak di array?
+	idx = findIdxbyId(A, idTarget)
+	if idx == -1 {
+		fmt.Printf("\n[Error] Pakaian dengan ID %d tidak ditemukan!\n", idTarget)
+		
+		fmt.Print("[Tekan 1 untuk kembali...]")
+		fmt.Scan(&jeda)
+
 		menuhapusData()
-	} else if opsi == "iya" {
-		if id == A[jumlahData-1].id {
+	}
+	
+	// Jika ID ada, baru tampilkan info singkat baju tersebut & konfirmasi
+	fmt.Println("\n------------------------------------------")
+	fmt.Println("Data ditemukan:")
+	fmt.Printf("Nama  : %s\n", (*A)[idx].nama)
+	fmt.Printf("Warna : %s\n", (*A)[idx].warna)
+	fmt.Printf("Ukuran: %s\n", (*A)[idx].ukuran)
+	fmt.Println("------------------------------------------")
+	
+	fmt.Println("Apakah anda yakin menghapus data tersebut?")
+	fmt.Print("[Ketik iya / tidak]: ")
+	fmt.Scan(&opsi)
+	
+	if opsi == "iya" {
+		if idx == *n-1 {
+			// Kasus A: Jika data yang dihapus kebetulan ada di paling ujung belakang array,
+			// kita cukup kurangi saja jumlah data totalnya sebanyak 1.
 			*n = *n - 1
 		} else {
-			idx = findIdxbyId(A, id)
-			if idx == -1 {
-				fmt.Println("ID tidak ada!")
-				menuhapusData()
-			}
-			i = idx
+			// Kasus B: Jika data ada di tengah-tengah, geser semua data kanan ke kiri
+			i := idx
 			for i < *n-1 {
-				(*A)[i] = A[i+1]
+				(*A)[i] = (*A)[i+1]
 				i++
 			}
-			*n = *n - 1
+			*n = *n - 1 // Kurangi jumlah elemen setelah digeser
 		}
-		daftarpakaian()
-	}
-}
-
-func hapusSemua() {
-	var input string
-	fmt.Println("Apakah anda yakin akan manghapus data tersebut?iya/tidak")
-	fmt.Scan(&input)
-	if input == "iya" {
-		jumlahData = 0
-	} else if input == "tidak" {
-		menuhapusData()
+		
+		fmt.Println("\n==========================================")
+		fmt.Println("   SUKSES: Data pakaian berhasil dihapus! ")
+		fmt.Println("==========================================")
 	} else {
-		fmt.Println("Input yang anda masukkan salah")
-		hapusSemua()
+		fmt.Println("\nPenghapusan data dibatalkan.")
 	}
+	
+	// Beri jeda enter agar user sempat membaca status sukses/gagalnya
+	fmt.Print("\nTekan 1 untuk kembali...")
+	fmt.Scan(&jeda)
+
+	clearScreen()
 }
 
 func daftarpakaian() {
 	/*
+	IS :
+	FS :
 	*/
 
 	var i int
@@ -373,6 +465,17 @@ func daftarpakaian() {
 			daftarToko[i].stok)
 	}
 	fmt.Println("+-------+----------------------+-----------------+------------+-------+\n")
+}
+
+// menu rekomendasi
+func menu_rekomendasi() {
+	/* Sub program menu_rekomendasi merupakan sub program menu rekomendasi fashion yang dicari berdasarkan
+	   kondisi cuaca, warna favorit user, dan acara yang akan dihadiri oleh user.
+
+	   BIKIN MENU : cuasa, warna, acara, gender
+	   setelah itu user akan nge input berdasarkan yang ada di menu.
+	*/
+
 }
 
 // ubah huruf jadi abjad
@@ -402,22 +505,11 @@ func bobotUkuran(ukuran string) int {
 	return 0 // Jika ada ukuran di luar itu
 }
 
-// menu rekomendasi
-func menu_rekomendasi() {
-	/* Sub program menu_rekomendasi merupakan sub program menu rekomendasi fashion yang dicari berdasarkan
-	   kondisi cuaca, warna favorit user, dan acara yang akan dihadiri oleh user.
-
-	   BIKIN MENU : cuasa, warna, acara, gender
-	   setelah itu user akan nge input berdasarkan yang ada di menu.
-	*/
-
-}
-
 // menu searching
 func menu_searching() {
 	/*
-	I.S.: User memilih menu pencarian dari menu utama. Layar terminal dibersihkan.
-	F.S.: Menampilkan pilihan menu algoritma pencarian (Sequential/Binary) dan 
+	IS : User memilih menu pencarian dari menu utama. Layar terminal dibersihkan.
+	FS : Menampilkan pilihan menu algoritma pencarian (Sequential/Binary) dan 
 	kategori pencarian (Ukuran/Warna), siap menerima input pilihan dari user.
 	*/
 	var pilih, pilih2, pilih3 int
@@ -573,8 +665,8 @@ func idBinarySearch(A *datapakaian, n int, x int) {
 // menu sorting
 func menuSorting() {
 	/*
-	I.S.: User memilih menu pengurutan dari menu utama. Layar terminal dibersihkan.
-	F.S.: Menampilkan pilihan menu algoritma pengurutan (Selection/Insertion) beserta 
+	IS : User memilih menu pengurutan dari menu utama. Layar terminal dibersihkan.
+	FS : Menampilkan pilihan menu algoritma pengurutan (Selection/Insertion) beserta 
 	pilihan urutan (Ascending/Descending), siap menerima input pilihan dari user.
 	*/
 
@@ -648,9 +740,9 @@ func menuSorting() {
 // ukuran selection sort asc
 func ukuranSelecSortAsc(A *datapakaian, n int) {
 	/*
-	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	IS : Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
 	ukurannya masih acak.
-	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara naik (Ascending) berdasarkan
+	FS : Seluruh data pakaian di dalam array A berhasil diurutkan secara naik (Ascending) berdasarkan
 	bobot ukuran pakaian (dari XS sampai XXXL). 
 	*/
 	var i, idx, pass int
@@ -681,9 +773,9 @@ func ukuranSelecSortAsc(A *datapakaian, n int) {
 // ukuran selection sort desc
 func ukuranSelecSortDesc(A *datapakaian, n int) {
 	/*
-	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	IS : Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
 	ukurannya masih acak.
-	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara menurun (Descending) berdasarkan
+	FS : Seluruh data pakaian di dalam array A berhasil diurutkan secara menurun (Descending) berdasarkan
 	bobot ukuran pakaian (dari XXXL sampai XS). 
 	*/
 	var i, idx, pass int
@@ -714,9 +806,9 @@ func ukuranSelecSortDesc(A *datapakaian, n int) {
 // warna insertion asc
 func warnaInsertAsc(A *datapakaian, n int) {
 	/*
-	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	IS : Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
 	warnanya masih acak.
-	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara naik (Ascending) berdasarkan
+	FS : Seluruh data pakaian di dalam array A berhasil diurutkan secara naik (Ascending) berdasarkan
 	warna pakaian (dari A sampai Z). 
 	*/
 	var i, pass int
@@ -737,9 +829,9 @@ func warnaInsertAsc(A *datapakaian, n int) {
 // warna insertion desc
 func warnaInsertDesc(A *datapakaian, n int) {
 	/*
-	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	IS : Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
 	warnanya masih acak.
-	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara menurun (Descending) berdasarkan
+	FS : Seluruh data pakaian di dalam array A berhasil diurutkan secara menurun (Descending) berdasarkan
 	warna pakaian (dari Z sampai A). 
 	*/
 	var i, pass int
@@ -821,8 +913,8 @@ func menuExit() bool {
 // hapus data sebelum
 func clearScreen() {
 	/*
-	I.S.: Layar terminal menampilkan riwayat teks atau menu dari proses sebelumnya.
-	F.S.: Layar terminal bersih dari teks lama.
+	IS : Layar terminal menampilkan riwayat teks atau menu dari proses sebelumnya.
+	FS : Layar terminal bersih dari teks lama.
 	*/
 
 	fmt.Print("\033[H\033[2J")
@@ -830,8 +922,8 @@ func clearScreen() {
 
 func inisialisasiData() {
 	/*
-	I.S.: Variabel global daftarToko masih kosong (berisi nilai bawaan/default struct) dan variabel jumlahData bernilai 0.
-	F.S.: Array daftarToko telah terisi dengan 100 data pakaian tiruan (dummy data) siap pakai, 
+	IS : Variabel global daftarToko masih kosong (berisi nilai bawaan/default struct) dan variabel jumlahData bernilai 0.
+	FS : Array daftarToko telah terisi dengan 100 data pakaian tiruan (dummy data) siap pakai, 
 	dan variabel jumlahData berubah nilainya menjadi 100.
 	*/
 
