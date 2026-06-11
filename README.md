@@ -17,8 +17,9 @@ Aplikasi ini menerapkan konsep struktur data Array of Struct, Pointer, serta alg
 1. **[Splash Screen "KAYRA"](fashionapplication.go#L20):** Tampilan estetik selamat datang saat aplikasi pertama kali dijalankan.
 2. **Manajemen Data (CRUD):** * **[Create / Tambah Data](fashionapplication.go#L40):** Menambah data pakaian secara fleksibel dengan ID otomatis (*Auto-Increment*).
    * **[Read / Tampil Data](fashionapplication.go#L80):** Menampilkan seluruh daftar data pakaian dalam bentuk tabel yang rapi di terminal.
-   * **[Delete / Hapus Data](fashionapplication.go#L120):** Menghapus data pakaian berdasarkan ID menggunakan metode *Array Deletion*.
+   * **[Update / Edit Data](fashionapplication.go#L241):** Mengedit satu atau seluruh data pakaian.
+   * **[Delete / Hapus Data](fashionapplication.go#L120):** Menghapus data pakaian berdasarkan ID.
 3. **[Pencarian Data (Searching)](fashionapplication.go#L160):** Mencari data pakaian secara instan berdasarkan ID menggunakan algoritma **Binary Search**.
 4. **[Pengurutan Data (Sorting)](fashionapplication.go#L200):** Mengurutkan daftar pakaian berdasarkan Ukuran atau Warna secara **Ascending** maupun **Descending**.
-5. 
+5. **[TBA]:** Memberikan rekomendasi outfit kalcer.
 ---
