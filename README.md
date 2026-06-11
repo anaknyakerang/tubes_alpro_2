@@ -14,9 +14,6 @@ Proyek ini dibuat untuk memenuhi tugas besar mata kuliah **Algoritma dan Pemrogr
 ## 🚀 Fitur Utama Aplikasi
 Aplikasi ini menerapkan konsep struktur data Array of Struct, Pointer, serta algoritma Searching dan Sorting:
 
-## 🚀 Fitur Utama Aplikasi
-Klik pada nama fitur untuk melihat langsung implementasi kodingannya:
-
 1. **[Splash Screen "KAYRA"](fashionapplication.go#L20):** Tampilan estetik selamat datang saat aplikasi pertama kali dijalankan.
 2. **Manajemen Data (CRUD):** * **[Create / Tambah Data](fashionapplication.go#L40):** Menambah data pakaian secara fleksibel dengan ID otomatis (*Auto-Increment*).
    * **[Read / Tampil Data](fashionapplication.go#L80):** Menampilkan seluruh daftar data pakaian dalam bentuk tabel yang rapi di terminal.
