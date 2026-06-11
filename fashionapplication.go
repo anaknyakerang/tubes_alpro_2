@@ -26,6 +26,7 @@ func main() {
 	inisialisasiData()
 
 	for {
+		clearScreen()
 		menu_utama()
 		fmt.Scan(&pilih)
 		switch pilih {
@@ -36,7 +37,7 @@ func main() {
 		case 3:
 			menuEditData()
 		case 4:
-			hapusData()
+			menuhapusData()
 		case 5:
 			menu_searching()
 		case 6:
@@ -55,26 +56,42 @@ func main() {
 	}
 }
 
-// BENERIN WOYYY !!!!
 func icon() {
+	/*
+	I.S.: Layar terminal siap menerima tampilan baru.
+	F.S.: Layar terminal menampilkan logo raksasa "KAYRA" di dalam kotak tabel, 
+	dan program dalam kondisi tertahan (jeda) sampai user mengetik "ENTER".
+	*/
+	var jeda string 
 
-	fmt.Println("+-----------------------------------------------------------------------------+")
-	fmt.Println("          WELCOME TO            \n")
-	fmt.Printf("| %-60s   |\n", " ")
-	fmt.Printf("| %-55s   |\n", "##    ##    ###    ##    ## ########     ###    ")
-	fmt.Printf("| %-55s   |\n", "##   ##    ## ##    ##  ##  ##     ##   ## ##   ")
-	fmt.Printf("| %-55s   |\n", "##  ##    ##   ##    ####   ##     ##  ##   ##  ")
-	fmt.Printf("| %-55s   |\n", "#####    ##     ##    ##    ########  ##     ## ")
-	fmt.Printf("| %-55s   |\n", "##  ##   #########    ##    ##   ##   ######### ")
-	fmt.Printf("| %-55s   |\n", "##   ##  ##     ##    ##    ##    ##  ##     ## ")
-	fmt.Printf("| %-55s   |\n", "##    ## ##     ##    ##    ##     ## ##     ## ")
-	fmt.Printf("| %-60s   |\n", " ")
-	fmt.Println("+-----------------------------------------------------------------------------+")
+	clearScreen() 
+	
+	fmt.Println("+-----------------------------------------------------+")
+	fmt.Println("|                     WELCOME TO                      |")
+	fmt.Println("+-----------------------------------------------------+")
+	fmt.Printf("| %-51s |\n", " ")
+	fmt.Printf("| %-51s |\n", "##    ##     ###    ##     ## ########     ###    ")
+	fmt.Printf("| %-51s |\n", "##   ##     ## ##    ##   ##  ##     ##   ## ##   ")
+	fmt.Printf("| %-51s |\n", "##  ##     ##   ##    ####    ##     ##  ##   ##  ")
+	fmt.Printf("| %-51s |\n", "#####     ##     ##    ##     ########  ##     ## ")
+	fmt.Printf("| %-51s |\n", "##  ##    #########    ##     ##   ##   ######### ")
+	fmt.Printf("| %-51s |\n", "##   ##   ##     ##    ##     ##    ##  ##     ## ")
+	fmt.Printf("| %-51s |\n", "##    ## ##     ##    ##     ##     ## ##     ## ")
+	fmt.Printf("| %-51s |\n", " ")
+	fmt.Println("+-----------------------------------------------------+")
 	fmt.Println()
+	fmt.Println("          [ Ketik ENTER Untuk Masuk Aplikasi ]        ")
+	
+	fmt.Scanln(&jeda) 
 }
 
 func menu_utama() {
-	clearScreen()
+	/*
+	I.S.: Layar terminal dalam keadaan bersih.
+	F.S.: Menampilkan pilihan menu utama [1 - 7] beserta 
+	opsi [0] Exit ke layar terminal, siap menunggu input pilihan dari user.
+	*/
+
 	fmt.Println("+--------------------------------------+")
 	fmt.Println("|          Selamat Datang Di           |")
 	fmt.Println("|       Aplikasi Manajemen Fashion     |")
@@ -88,10 +105,10 @@ func menu_utama() {
 	fmt.Printf("| %-36s |\n", "[7] Rekomendasi Fashion")
 	fmt.Printf("| %-36s |\n", "[0] Exit")
 	fmt.Println("+--------------------------------------+")
-	fmt.Print("Pilih [0 - 6]?")
+	fmt.Print("Pilih [0 - 7]?")
 }
 
-// Ngebalikin
+// Ngebalikin (???!)
 func isNumber(input int) bool {
 	if input >= 0 {
 		return true
@@ -101,6 +118,11 @@ func isNumber(input int) bool {
 
 // cetak Data
 func cetakData(A datapakaian, awal int, akhir int) {
+	/*
+	I.S.: Terdefinisi sebuah array A yang berisi data pakaian, serta batas indeks awal dan akhir.
+	F.S.: Data pakaian yang berada di antara indeks awal sampai akhir tercetak rapi ke layar dalam format tabel. 
+	Array A tidak mengalami perubahan posisi atau isi data.
+	*/
 	var i int
 
 	fmt.Println("\n+-------+----------------------+-----------------+------------+-------+")
@@ -164,6 +186,7 @@ func tambahPakaian(data *datapakaian) {
 	data[jumlahData].stok = inputStok
 	jumlahData++
 }
+
 func tambahPakaianMany(data *datapakaian) {
 	var inputData int
 	fmt.Print("Masukkan Banyak Data : ")
@@ -174,8 +197,8 @@ func tambahPakaianMany(data *datapakaian) {
 	}
 }
 
-// //kay
-// //menu edit data
+// kay
+// menu edit data
 func menuEditData() {
 	var pilih int
 
@@ -243,23 +266,24 @@ func findIdxbyId(data *datapakaian, id int) int {
 	var left, right, mid int
 	var idxfound int
 	idxfound = -1
+	left = 0
 	right = jumlahData - 1
 	for left <= right && idxfound == -1 {
 		mid = (left + right) / 2
-		if data[mid].id == id {
+		if (*data)[mid].id == id {
 			idxfound = mid
-		} else if data[mid].id > id {
-			left = mid + 1
-		} else {
+		} else if (*data)[mid].id > id {
 			right = mid - 1
+		} else {
+			left = mid + 1
 		}
 	}
 	return idxfound
 }
 
-// //kay
-// //menu hapus data
-func hapusData() {
+// kay
+// menu hapus data
+func menuhapusData() {
 	var pilih, id int
 
 	clearScreen()
@@ -279,24 +303,38 @@ func hapusData() {
 		hapusDatabyID(&daftarToko, &jumlahData, id)
 	} else if pilih == 2 {
 		hapusSemua()
+	} else if pilih == 0 {
+		menu_utama()
+	} else {
+		menuhapusData()
 	}
 }
 
 func hapusDatabyID(A *datapakaian, n *int, id int) {
 	var idx, i int
-	if id == A[jumlahData-1].id {
-		*n = *n - 1
-	} else {
-		idx = findIdxbyId(A, id)
-		if idx == -1 {
-			hapusData()
+	var opsi string
+	daftarpakaian()
+	fmt.Print("Apakah Anda yakin ingin menghapus data tersebut?")
+	fmt.Scan(&opsi)
+	if opsi == "tidak" {
+		menuhapusData()
+	} else if opsi == "iya" {
+		if id == A[jumlahData-1].id {
+			*n = *n - 1
+		} else {
+			idx = findIdxbyId(A, id)
+			if idx == -1 {
+				fmt.Println("ID tidak ada!")
+				menuhapusData()
+			}
+			i = idx
+			for i < *n-1 {
+				(*A)[i] = A[i+1]
+				i++
+			}
+			*n = *n - 1
 		}
-		i = idx
-		for i < *n-1 {
-			(*A)[i] = A[i+1]
-			i++
-		}
-		*n = *n - 1
+		daftarpakaian()
 	}
 }
 
@@ -307,7 +345,7 @@ func hapusSemua() {
 	if input == "iya" {
 		jumlahData = 0
 	} else if input == "tidak" {
-		hapusData()
+		menuhapusData()
 	} else {
 		fmt.Println("Input yang anda masukkan salah")
 		hapusSemua()
@@ -315,6 +353,9 @@ func hapusSemua() {
 }
 
 func daftarpakaian() {
+	/*
+	*/
+
 	var i int
 
 	clearScreen()
@@ -334,6 +375,33 @@ func daftarpakaian() {
 	fmt.Println("+-------+----------------------+-----------------+------------+-------+\n")
 }
 
+// ubah huruf jadi abjad
+func bobotUkuran(ukuran string) int {
+	/*
+	Inputan sebuah teks yang merepresentasikan ukuran pakaian (misal: "S", "M", "L").
+	Memetakan inputan ukuran tersebut ke dalam skala angka agar bisa dibandingkan secara matematis.
+	Dan mengembalikan angka integer dari 1 sampai 7 sesuai tingkatan ukuran baju 
+	(XS=1, S=2, dst). Jika ukuran tidak dikenali, mengembalikan angka 0.
+	*/
+
+	if ukuran == "XS" {
+		return 1
+	} else if ukuran == "S" {
+		return 2
+	} else if ukuran == "M" {
+		return 3
+	} else if ukuran == "L" {
+		return 4
+	} else if ukuran == "XL" {
+		return 5
+	} else if ukuran == "XXL" {
+		return 6
+	} else if ukuran == "XXXL" {
+		return 7
+	}
+	return 0 // Jika ada ukuran di luar itu
+}
+
 // menu rekomendasi
 func menu_rekomendasi() {
 	/* Sub program menu_rekomendasi merupakan sub program menu rekomendasi fashion yang dicari berdasarkan
@@ -347,8 +415,15 @@ func menu_rekomendasi() {
 
 // menu searching
 func menu_searching() {
-	var pilih, pilih2, pilih3, pilih4 int
-	var katakunci string
+	/*
+	I.S.: User memilih menu pencarian dari menu utama. Layar terminal dibersihkan.
+	F.S.: Menampilkan pilihan menu algoritma pencarian (Sequential/Binary) dan 
+	kategori pencarian (Ukuran/Warna), siap menerima input pilihan dari user.
+	*/
+	var pilih, pilih2, pilih3 int
+	var katakunci int
+	var katakunci2 string 
+
 	clearScreen()
 
 	fmt.Println("+------------------------------------------+")
@@ -377,113 +452,46 @@ func menu_searching() {
 
 		if pilih2 == 1 {
 			fmt.Print("Ukuran yang dicari: ")
-			fmt.Scan(&katakunci)
-			sequentialSearchbySize(daftarToko, jumlahData, katakunci)
+			fmt.Scan(&katakunci2)
+			sequentialSearchbySize(daftarToko, jumlahData, katakunci2)
 
 		} else if pilih2 == 2 {
 			fmt.Print("Warna yang dicari: ")
-			fmt.Scan(&katakunci)
-			sequentialSearchbyColor(daftarToko, jumlahData, katakunci)
-
+			fmt.Scan(&katakunci2)
+			sequentialSearchbyColor(daftarToko, jumlahData, katakunci2)
+		} else {
+			clearScreen()
+			menu_searching()
 		}
 
 	} else if pilih == 2 {
-		clearScreen()
-		fmt.Println("+------------------------------------------+")
-		fmt.Println("|              Anda Berada Di              |")
-		fmt.Println("|             Menu Binary Search           |")
-		fmt.Println("+------------------------------------------+")
-		fmt.Printf("| %-40s |\n", "[1] Ukuran")
-		fmt.Printf("| %-40s |\n", "[2] Warna")
-		fmt.Printf("| %-40s |\n", "[0] Menu Searching")
-		fmt.Println("+------------------------------------------+")
-		fmt.Print("Pilih [1/2/0]? ")
-		fmt.Scan(&pilih2)
-
-		if pilih2 == 1 {
 			clearScreen()
 			fmt.Println("+------------------------------------------+")
 			fmt.Println("|              Anda Berada Di              |")
-			fmt.Println("|         Menu Ukuran Binary Search        |")
+			fmt.Println("|         Menu ID Binary Search        |")
 			fmt.Println("+------------------------------------------+")
 			fmt.Printf("| %-40s |\n", "[1] Ascending")
-			fmt.Printf("| %-40s |\n", "[2] Descending")
 			fmt.Printf("| %-40s |\n", "[0] Menu Searching")
 			fmt.Println("+------------------------------------------+")
-			fmt.Print("Pilih [1/2/0]? ")
+			fmt.Print("Pilih [1/0]? ")
 			fmt.Scan(&pilih3)
 
 			if pilih3 == 1 {
-				fmt.Print("Ukuran yang dicari (Binary Asc): ")
+				fmt.Print("ID yang dicari: ")
 				fmt.Scan(&katakunci)
-				ukuranBinarySearchAsc(&daftarToko, jumlahData, katakunci)
-
-			} else if pilih3 == 2 {
-				fmt.Print("Ukuran yang dicari (Binary Desc): ")
-				fmt.Scan(&katakunci)
-				ukuranBinarySearchDesc(&daftarToko, jumlahData, katakunci)
+				idBinarySearch(&daftarToko, jumlahData, katakunci)
 
 			} else if pilih3 == 0 {
 				clearScreen()
 				menu_searching()
 			}
-
-		} else if pilih2 == 2 {
-			clearScreen()
-			fmt.Println("+------------------------------------------+")
-			fmt.Println("|              Anda Berada Di              |")
-			fmt.Println("|          Menu Warna Binary Search        |")
-			fmt.Println("+------------------------------------------+")
-			fmt.Printf("| %-40s |\n", "[1] Ascending")
-			fmt.Printf("| %-40s |\n", "[2] Descending")
-			fmt.Printf("| %-40s |\n", "[0] Menu Searching")
-			fmt.Println("+------------------------------------------+")
-			fmt.Print("Pilih [1/2/0]? ")
-			fmt.Scan(&pilih4)
-
-			if pilih4 == 1 {
-				fmt.Print("Warna yang dicari: ")
-				fmt.Scan(&katakunci)
-				warnaBinarySearchAsc(&daftarToko, jumlahData, katakunci)
-
-			} else if pilih4 == 2 {
-				fmt.Print("Warna yang dicari: ")
-				fmt.Scan(&katakunci)
-				warnaBinarySearchDesc(&daftarToko, jumlahData, katakunci)
-
-			} else if pilih4 == 0 {
-				clearScreen()
-				menu_searching()
-			}
-		} else if pilih2 == 0 {
-			clearScreen()
-			menu_searching()
-		}
 	} else if pilih == 0 {
 		clearScreen()
 		menu_utama()
 	}
 }
 
-// ubah huruf jadi abjad
-func bobotUkuran(ukuran string) int {
-	if ukuran == "XS" {
-		return 1
-	} else if ukuran == "S" {
-		return 2
-	} else if ukuran == "M" {
-		return 3
-	} else if ukuran == "L" {
-		return 4
-	} else if ukuran == "XL" {
-		return 5
-	} else if ukuran == "XXL" {
-		return 6
-	} else if ukuran == "XXXL" {
-		return 7
-	}
-	return 0 // Jika ada ukuran di luar itu
-}
+//GANTI MENJADI PROCEDURE !!
 
 // mencari ukuran menggunakan sequential search
 func sequentialSearchbySize(data datapakaian, n int, ukuran string) int {
@@ -497,6 +505,8 @@ func sequentialSearchbySize(data datapakaian, n int, ukuran string) int {
 	}
 	return found
 }
+
+//GANTI MENJADI PROCEDURE !!
 
 // mencari warna menggunakan sequential search
 func sequentialSearchbyColor(data datapakaian, n int, warna string) int {
@@ -512,7 +522,14 @@ func sequentialSearchbyColor(data datapakaian, n int, warna string) int {
 	return found
 }
 
-func ukuranBinarySearchAsc(A *datapakaian, n int, x string) {
+//Binary search by ID 
+func idBinarySearch(A *datapakaian, n int, x int) {
+	/*
+	IS : Terdefinisi sebuah array A yang berisi n data pakaian dalam keadaan sudah terurut secara naik (Ascending) berdasarkan nomor ID, 
+	dan terdefinisi sebuah variabel x sebagai nomor ID pakaian yang ingin dicari.
+	FS : Jika nomor ID yang disimpan dalam x ditemukan di dalam array A, maka data pakaian tersebut dicetak rapi ke layar terminal (menggunakan prosedur cetakData). 
+	Jika nomor ID x tidak ditemukan, maka layar akan menampilkan pesan teks bahwa data tidak ditemukan. 
+	*/
 	var left, right, mid int
 	var idx int
 	var batasKanan, batasKiri int
@@ -522,9 +539,9 @@ func ukuranBinarySearchAsc(A *datapakaian, n int, x string) {
 	right = n - 1
 	for left <= right && idx == -1 {
 		mid = (left + right) / 2
-		if (*A)[mid].ukuran == x {
+		if (*A)[mid].id == x {
 			idx = mid
-		} else if bobotUkuran(x) > bobotUkuran((*A)[mid].ukuran) {
+		} else if x > (*A)[mid].id {
 			left = mid + 1
 		} else {
 			right = mid - 1
@@ -537,151 +554,33 @@ func ukuranBinarySearchAsc(A *datapakaian, n int, x string) {
 		batasKanan = idx
 
 		// Cari tahu seberapa jauh data yang sama di sebelah kiri
-		for batasKiri > 0 && (*A)[batasKiri-1].ukuran == x {
+		for batasKiri > 0 && (*A)[batasKiri-1].id == x {
 			batasKiri--
 		}
 
 		// Cari tahu seberapa jauh data yang sama di sebelah kanan
-		for batasKanan < n-1 && (*A)[batasKanan+1].ukuran == x {
+		for batasKanan < n-1 && (*A)[batasKanan+1].id == x {
 			batasKanan++
 		}
 
 		cetakData(daftarToko, batasKiri, batasKanan)
 
 	} else {
-		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
-	}
-}
-
-// ukuran binary search desc
-func ukuranBinarySearchDesc(A *datapakaian, n int, x string) {
-	var left, right, mid int
-	var idx int
-	var batasKanan, batasKiri int
-
-	idx = -1
-	left = 0
-	right = n - 1
-	for left <= right && idx == -1 {
-		mid = (left + right) / 2
-		if (*A)[mid].ukuran == x {
-			idx = mid
-		} else if bobotUkuran(x) < bobotUkuran((*A)[mid].ukuran) {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	if idx != -1 {
-
-		batasKiri = idx
-		batasKanan = idx
-
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri
-		for batasKiri > 0 && (*A)[batasKiri-1].ukuran == x {
-			batasKiri--
-		}
-
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan
-		for batasKanan < n-1 && (*A)[batasKanan+1].ukuran == x {
-			batasKanan++
-		}
-
-		cetakData(daftarToko, batasKiri, batasKanan)
-
-	} else {
-		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
-	}
-}
-
-// warna binary search asc
-func warnaBinarySearchAsc(A *datapakaian, n int, x string) {
-	var left, right, mid int
-	var idx int
-	var batasKanan, batasKiri int
-
-	idx = -1
-	left = 0
-	right = n - 1
-	for left <= right && idx == -1 {
-		mid = (left + right) / 2
-		if (*A)[mid].warna == x {
-			idx = mid
-		} else if x > (*A)[mid].warna {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	if idx != -1 {
-
-		batasKiri = idx
-		batasKanan = idx
-
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri
-		for batasKiri > 0 && (*A)[batasKiri-1].warna == x {
-			batasKiri--
-		}
-
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan
-		for batasKanan < n-1 && (*A)[batasKanan+1].warna == x {
-			batasKanan++
-		}
-
-		cetakData(daftarToko, batasKiri, batasKanan)
-
-	} else {
-		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
-	}
-}
-
-// warna binary search desc
-func warnaBinarySearchDesc(A *datapakaian, n int, x string) {
-	var left, right, mid int
-	var idx int
-	var batasKanan, batasKiri int
-
-	idx = -1
-	left = 0
-	right = n - 1
-	for left <= right && idx == -1 {
-		mid = (left + right) / 2
-		if (*A)[mid].warna == x {
-			idx = mid
-		} else if x < (*A)[mid].warna {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	if idx != -1 {
-
-		batasKiri = idx
-		batasKanan = idx
-
-		// Cari tahu seberapa jauh data yang sama di sebelah kiri
-		for batasKiri > 0 && (*A)[batasKiri-1].warna == x {
-			batasKiri--
-		}
-
-		// Cari tahu seberapa jauh data yang sama di sebelah kanan
-		for batasKanan < n-1 && (*A)[batasKanan+1].warna == x {
-			batasKanan++
-		}
-
-		cetakData(daftarToko, batasKiri, batasKanan)
-
-	} else {
-		fmt.Println("Data dengan ukuran", x, "tidak ditemukan.")
+		fmt.Println("Data dengan ID", x, "tidak ditemukan.")
 	}
 }
 
 // menu sorting
 func menuSorting() {
-	var pilih, pilih2, pilih3, pilih4, pilih21 int
+	/*
+	I.S.: User memilih menu pengurutan dari menu utama. Layar terminal dibersihkan.
+	F.S.: Menampilkan pilihan menu algoritma pengurutan (Selection/Insertion) beserta 
+	pilihan urutan (Ascending/Descending), siap menerima input pilihan dari user.
+	*/
+
+	var pilih, pilih3, pilih21 int
 
 	clearScreen()
-
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|           Menu Sorting Pakaian           |")
@@ -697,128 +596,45 @@ func menuSorting() {
 		clearScreen()
 		fmt.Println("+------------------------------------------+")
 		fmt.Println("|              Anda Berada Di              |")
-		fmt.Println("|            Menu Selection Sort           |")
+		fmt.Println("|        Menu Ukuran Selection Sort        |")
 		fmt.Println("+------------------------------------------+")
-		fmt.Printf("| %-40s |\n", "[1] Ukuran")
-		fmt.Printf("| %-40s |\n", "[2] Warna")
+		fmt.Printf("| %-40s |\n", "[1] Asending")
+		fmt.Printf("| %-40s |\n", "[2] Decending")
 		fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
 		fmt.Println("+------------------------------------------+")
 		fmt.Print("Pilih [1/2/0]? ")
-		fmt.Scan(&pilih2)
+		fmt.Scan(&pilih21)
 
-		if pilih2 == 1 {
+		if pilih21 == 1 {
+			ukuranSelecSortAsc(&daftarToko, jumlahData)
+			cetakData(daftarToko, 0, jumlahData-1)
+		} else if pilih21 == 2 {
+			ukuranSelecSortDesc(&daftarToko, jumlahData)
+			cetakData(daftarToko, 0, jumlahData-1)
+		} else if pilih21 == 0 {
 			clearScreen()
-			fmt.Println("+------------------------------------------+")
-			fmt.Println("|              Anda Berada Di              |")
-			fmt.Println("|        Menu Ukuran Selection Sort        |")
-			fmt.Println("+------------------------------------------+")
-			fmt.Printf("| %-40s |\n", "[1] Asending")
-			fmt.Printf("| %-40s |\n", "[2] Decending")
-			fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
-			fmt.Println("+------------------------------------------+")
-			fmt.Print("Pilih [1/2/0]? ")
-			fmt.Scan(&pilih21)
-
-			if pilih21 == 1 {
-				ukuranSelecSortAsc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih21 == 2 {
-				ukuranSelecSortDesc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih21 == 0 {
-				clearScreen()
-				menuSorting()
-			}
-
-		} else if pilih2 == 2 {
-			clearScreen()
-			fmt.Println("+------------------------------------------+")
-			fmt.Println("|              Anda Berada Di              |")
-			fmt.Println("|        Menu Warna Selection Sort        |")
-			fmt.Println("+------------------------------------------+")
-			fmt.Printf("| %-40s |\n", "[1] Asending")
-			fmt.Printf("| %-40s |\n", "[2] Decending")
-			fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
-			fmt.Println("+------------------------------------------+")
-			fmt.Print("Pilih [1/2/0]? ")
-			fmt.Scan(&pilih21)
-
-			if pilih21 == 1 {
-				warnaSelecSortAsc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih21 == 2 {
-				warnaSelecSortDesc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih21 == 0 {
-				clearScreen()
-				menuSorting()
-			}
+			menuSorting()
 		}
 	} else if pilih == 2 {
 		clearScreen()
 		fmt.Println("+------------------------------------------+")
 		fmt.Println("|              Anda Berada Di              |")
-		fmt.Println("|            Menu Insertion Sort           |")
+		fmt.Println("|         Menu Warna Insertion Sort        |")
 		fmt.Println("+------------------------------------------+")
-		fmt.Printf("| %-40s |\n", "[1] Ukuran")
-		fmt.Printf("| %-40s |\n", "[2] Warna")
-		fmt.Printf("| %-40s |\n", "[0] Menu Searching")
+		fmt.Printf("| %-40s |\n", "[1] Ascending")
+		fmt.Printf("| %-40s |\n", "[2] Descending")
+		fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
 		fmt.Println("+------------------------------------------+")
 		fmt.Print("Pilih [1/2/0]? ")
-		fmt.Scan(&pilih2)
+		fmt.Scan(&pilih3)
 
-		if pilih2 == 1 {
-			clearScreen()
-			fmt.Println("+------------------------------------------+")
-			fmt.Println("|              Anda Berada Di              |")
-			fmt.Println("|         Menu Ukuran Insertion Sort       |")
-			fmt.Println("+------------------------------------------+")
-			fmt.Printf("| %-40s |\n", "[1] Ascending")
-			fmt.Printf("| %-40s |\n", "[2] Descending")
-			fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
-			fmt.Println("+------------------------------------------+")
-			fmt.Print("Pilih [1/2/0]? ")
-			fmt.Scan(&pilih3)
-
-			if pilih3 == 1 {
-				// panggil fungsi
-				ukuranInsertAsc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih3 == 2 {
-				//panggil fungsi
-				ukuranInsertDesc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih3 == 0 {
-				clearScreen()
-				menuSorting()
-			}
-
-		} else if pilih2 == 2 {
-			clearScreen()
-			fmt.Println("+------------------------------------------+")
-			fmt.Println("|              Anda Berada Di              |")
-			fmt.Println("|         Menu Warna Insertion Sort        |")
-			fmt.Println("+------------------------------------------+")
-			fmt.Printf("| %-40s |\n", "[1] Ascending")
-			fmt.Printf("| %-40s |\n", "[2] Descending")
-			fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
-			fmt.Println("+------------------------------------------+")
-			fmt.Print("Pilih [1/2/0]? ")
-			fmt.Scan(&pilih4)
-
-			if pilih4 == 1 {
-				//panggil fungsi
-				warnaInsertAsc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih4 == 2 {
-				//panggil fungsi
-				warnaInsertDesc(&daftarToko, jumlahData)
-				cetakData(daftarToko, 0, jumlahData-1)
-			} else if pilih4 == 0 {
-				clearScreen()
-				menuSorting()
-			}
-		} else if pilih2 == 0 {
+		if pilih3 == 1 {
+			warnaInsertAsc(&daftarToko, jumlahData)
+			cetakData(daftarToko, 0, jumlahData-1)
+		} else if pilih3 == 2 {
+			warnaInsertDesc(&daftarToko, jumlahData)
+			cetakData(daftarToko, 0, jumlahData-1)
+		} else if pilih3 == 0 {
 			clearScreen()
 			menuSorting()
 		}
@@ -831,6 +647,12 @@ func menuSorting() {
 // Muti
 // ukuran selection sort asc
 func ukuranSelecSortAsc(A *datapakaian, n int) {
+	/*
+	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	ukurannya masih acak.
+	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara naik (Ascending) berdasarkan
+	bobot ukuran pakaian (dari XS sampai XXXL). 
+	*/
 	var i, idx, pass int
 	var temp pakaian
 
@@ -858,6 +680,12 @@ func ukuranSelecSortAsc(A *datapakaian, n int) {
 
 // ukuran selection sort desc
 func ukuranSelecSortDesc(A *datapakaian, n int) {
+	/*
+	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	ukurannya masih acak.
+	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara menurun (Descending) berdasarkan
+	bobot ukuran pakaian (dari XXXL sampai XS). 
+	*/
 	var i, idx, pass int
 	var temp pakaian
 
@@ -883,100 +711,14 @@ func ukuranSelecSortDesc(A *datapakaian, n int) {
 	}
 }
 
-// warna selection sort asc
-func warnaSelecSortAsc(A *datapakaian, n int) {
-	var i, idx, pass int
-	var temp pakaian
-
-	pass = 1
-
-	for pass <= n {
-		idx = pass - 1
-		i = pass
-
-		for i < n {
-
-			if (*A)[i].warna < (*A)[idx].warna {
-				idx = i
-			}
-			i = i + 1
-		}
-		//swap
-		temp = (*A)[pass-1]
-		(*A)[pass-1] = (*A)[idx]
-		(*A)[idx] = temp
-
-		pass = pass + 1
-	}
-}
-
-// warna selection desc
-func warnaSelecSortDesc(A *datapakaian, n int) {
-	var i, idx, pass int
-	var temp pakaian
-
-	pass = 1
-
-	for pass <= n {
-		idx = pass - 1
-		i = pass
-
-		for i < n {
-
-			if (*A)[i].warna > (*A)[idx].warna {
-				idx = i
-			}
-			i = i + 1
-		}
-		//swap
-		temp = (*A)[pass-1]
-		(*A)[pass-1] = (*A)[idx]
-		(*A)[idx] = temp
-
-		pass = pass + 1
-	}
-}
-
-// Kay
-// ukuran insertion sort asc
-func ukuranInsertAsc(A *datapakaian, n int) {
-	var i, pass int
-	var temp pakaian
-	pass = 1
-	for pass < n {
-		temp = (*A)[pass]
-		i = pass - 1
-		for i >= 0 && bobotUkuran((*A)[i].ukuran) > bobotUkuran(temp.ukuran) {
-			(*A)[i+1] = (*A)[i]
-			i--
-		}
-		(*A)[i+1] = temp
-		pass++
-	}
-}
-
-// ukuran insertion sort desc
-func ukuranInsertDesc(A *datapakaian, n int) {
-	/*
-
-	 */
-	var i, pass int
-	var temp pakaian
-	pass = 1
-	for pass < n {
-		temp = (*A)[pass]
-		i = pass - 1
-		for i >= 0 && bobotUkuran((*A)[i].ukuran) < bobotUkuran(temp.ukuran) {
-			(*A)[i+1] = (*A)[i]
-			i--
-		}
-		(*A)[i+1] = temp
-		pass++
-	}
-}
-
 // warna insertion asc
 func warnaInsertAsc(A *datapakaian, n int) {
+	/*
+	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	warnanya masih acak.
+	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara naik (Ascending) berdasarkan
+	warna pakaian (dari A sampai Z). 
+	*/
 	var i, pass int
 	var temp pakaian
 	pass = 1
@@ -994,6 +736,12 @@ func warnaInsertAsc(A *datapakaian, n int) {
 
 // warna insertion desc
 func warnaInsertDesc(A *datapakaian, n int) {
+	/*
+	I.S.: Terdefinisi alamat memori array A (menggunakan pointer) berisi n data pakaian yang urutan 
+	warnanya masih acak.
+	F.S.: Seluruh data pakaian di dalam array A berhasil diurutkan secara menurun (Descending) berdasarkan
+	warna pakaian (dari Z sampai A). 
+	*/
 	var i, pass int
 	var temp pakaian
 	pass = 1
@@ -1010,6 +758,13 @@ func warnaInsertDesc(A *datapakaian, n int) {
 }
 
 func menuExit() bool {
+	/*
+	Function menuExit akan menerima input integer dari user di dalam fungsi.
+	Fungsi ini akan menampilkan kotak konfirmasi berlapis ("KAMU YAKIN?!" dan "BENERAN?!") untuk memastikan user ingin keluar, 
+	serta mencetak logo "THANK YOU" jika user memilih keluar.
+	Fungsi ini juga mengembalikan nilai boolean true jika user memilih "Yes" pada semua konfirmasi (sinyal aplikasi boleh ditutup),
+	atau mengembalikan false jika user memilih "No" di salah satu konfirmasi (sinyal batal keluar).
+	*/
 	var input int
 
 	clearScreen()
@@ -1065,12 +820,21 @@ func menuExit() bool {
 
 // hapus data sebelum
 func clearScreen() {
-	/* \033[2J perintah untuk menghapus seluruh teks yang ada di layar terminal saat ini.
-	\033[H perintah untuk memindahkan posisi kursor ketikan kembali ke pojok kiri paling atas layar.*/
+	/*
+	I.S.: Layar terminal menampilkan riwayat teks atau menu dari proses sebelumnya.
+	F.S.: Layar terminal bersih dari teks lama.
+	*/
+
 	fmt.Print("\033[H\033[2J")
 }
 
 func inisialisasiData() {
+	/*
+	I.S.: Variabel global daftarToko masih kosong (berisi nilai bawaan/default struct) dan variabel jumlahData bernilai 0.
+	F.S.: Array daftarToko telah terisi dengan 100 data pakaian tiruan (dummy data) siap pakai, 
+	dan variabel jumlahData berubah nilainya menjadi 100.
+	*/
+
 	daftarToko[0] = pakaian{id: 1, nama: "Kaos Polos", warna: "Merah", ukuran: "M", stok: 15}
 	daftarToko[1] = pakaian{id: 2, nama: "Kemeja Flanel", warna: "Biru", ukuran: "L", stok: 10}
 	daftarToko[2] = pakaian{id: 3, nama: "Celana Chino", warna: "Hitam", ukuran: "L", stok: 20}
@@ -1173,4 +937,5 @@ func inisialisasiData() {
 	daftarToko[99] = pakaian{id: 100, nama: "Blouse Casual", warna: "Biru", ukuran: "XS", stok: 12}
 
 	jumlahData = 100
+
 }
