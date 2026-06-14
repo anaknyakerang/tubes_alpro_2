@@ -476,6 +476,74 @@ func menu_rekomendasi() {
 	   BIKIN MENU : cuasa, warna, acara, gender
 	   setelah itu user akan nge input berdasarkan yang ada di menu.
 	*/
+	var pilih int
+
+	clearScreen()
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("|              Anda Berada Di              |")
+	fmt.Println("|         Menu Rekomendasi Pakaian         |")
+	fmt.Println("+------------------------------------------+")
+	fmt.Printf("| %-40s |\n", "[1] Cari Rekomendasi Outfit")
+	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
+	fmt.Println("+------------------------------------------+")
+	fmt.Print("Pilih [1 / 0]? ")
+	fmt.Scan(&pilih)
+
+	if pilih == 1 {
+
+	}
+}
+func pilih_rekomendasiPakaian() {
+	var pilihanCuaca, pilihanAcara int
+	var cuaca, acara string
+
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("|              PILIH CUACA                 |")
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("| 1. Cerah                                 |")
+	fmt.Println("| 2. Mendung                               |")
+	fmt.Println("| 3. Hujan                                 |")
+	fmt.Println("+------------------------------------------+")
+	fmt.Print("Pilihan : ")
+	fmt.Scan(&pilihanCuaca)
+
+	switch pilihanCuaca {
+	case 1:
+		cuaca = "cerah"
+	case 2:
+		cuaca = "mendung"
+	case 3:
+		cuaca = "hujan"
+	default:
+		fmt.Println("Pilihan cuaca tidak valid")
+		return
+	}
+
+	fmt.Println()
+
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("|              PILIH ACARA                 |")
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("| 1. Formal                                |")
+	fmt.Println("| 2. Semi Formal                           |")
+	fmt.Println("| 3. Casual                                |")
+	fmt.Println("+------------------------------------------+")
+	fmt.Print("Pilihan : ")
+	fmt.Scan(&pilihanAcara)
+
+	switch pilihanAcara {
+	case 1:
+		acara = "formal"
+	case 2:
+		acara = "semiformal"
+	case 3:
+		acara = "casual"
+	default:
+		fmt.Println("Pilihan acara tidak valid")
+		return
+	}
+
+	// Panggil fungsi rekomendasi
 
 }
 
