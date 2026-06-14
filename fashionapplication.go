@@ -27,7 +27,7 @@ func main() {
 
 	for {
 		menu_utama()
-		fmt.Scan(&pilih)
+		pilih = inputInt()
 		switch pilih {
 		case 1:
 			daftarpakaian()
@@ -108,11 +108,10 @@ func menu_utama() {
 	fmt.Println("+--------------------------------------+")
 	fmt.Print("Pilih [0 - 7]?")
 }
-func inputInt(prompt string) int {
+func inputInt() int {
 	var err error
 	var value int
 	for {
-		fmt.Print("  " + prompt)
 		_, err = fmt.Scan(&value)
 		if err != nil {
 			fmt.Println("Input harus berupa angka!")
@@ -168,7 +167,7 @@ func menutambahData() {
 
 	var pilih int
 	fmt.Print("Pilih [0 / 1]? ")
-	fmt.Scan(&pilih)
+	pilih = inputInt()
 
 	if pilih == 1 {
 		// Langsung panggil fungsi gabungan kita
@@ -274,7 +273,7 @@ func menuEditData() {
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [0 / 1]? ")
-	fmt.Scan(&pilih)
+	pilih = inputInt()
 	if pilih == 1 {
 		editDatabyId(&daftarToko)
 	}
@@ -378,7 +377,7 @@ func menuhapusData() {
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [1 / 0]? ")
-	fmt.Scan(&pilih)
+	pilih = inputInt()
 
 	if pilih == 1 {
 		hapusDatabyID(&daftarToko, &jumlahData)
@@ -506,7 +505,7 @@ func menu_rekomendasi() {
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [1 / 0]? ")
-	fmt.Scan(&pilih)
+	pilih = inputInt()
 
 	if pilih == 1 {
 
@@ -615,7 +614,7 @@ func menu_searching() {
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [1/2/0]? ")
-	fmt.Scan(&pilih)
+	pilih = inputInt()
 
 	if pilih == 1 {
 		clearScreen()
@@ -770,7 +769,7 @@ func menuSorting() {
 		pilihan urutan (Ascending/Descending), siap menerima input pilihan dari user.
 	*/
 
-	var pilih, pilih3, pilih21 int
+	var pilih, pilih2, pilih3 int
 
 	clearScreen()
 	fmt.Println("+------------------------------------------+")
@@ -782,7 +781,7 @@ func menuSorting() {
 	fmt.Printf("| %-40s |\n", "[0] Menu Utama")
 	fmt.Println("+------------------------------------------+")
 	fmt.Print("Pilih [1/2/0]? ")
-	fmt.Scan(&pilih)
+	pilih = inputInt()
 
 	if pilih == 1 {
 		clearScreen()
@@ -795,15 +794,15 @@ func menuSorting() {
 		fmt.Printf("| %-40s |\n", "[0] Menu Sorting")
 		fmt.Println("+------------------------------------------+")
 		fmt.Print("Pilih [1/2/0]? ")
-		fmt.Scan(&pilih21)
+		pilih2 = inputInt()
 
-		if pilih21 == 1 {
+		if pilih2 == 1 {
 			ukuranSelecSortAsc(&daftarToko, jumlahData)
 			cetakData(daftarToko, 0, jumlahData-1)
-		} else if pilih21 == 2 {
+		} else if pilih2 == 2 {
 			ukuranSelecSortDesc(&daftarToko, jumlahData)
 			cetakData(daftarToko, 0, jumlahData-1)
-		} else if pilih21 == 0 {
+		} else if pilih2 == 0 {
 			clearScreen()
 			menuSorting()
 		}
