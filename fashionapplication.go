@@ -108,6 +108,25 @@ func menu_utama() {
 	fmt.Println("+--------------------------------------+")
 	fmt.Print("Pilih [0 - 7]?")
 }
+func inputInt(prompt string) int {
+	var err error
+	var value int
+	for {
+		fmt.Print("  " + prompt)
+		_, err = fmt.Scan(&value)
+		if err != nil {
+			fmt.Println("Input harus berupa angka!")
+			var dummy string
+			fmt.Scanln(&dummy)
+			continue
+		}
+		if value < 0 {
+			fmt.Println("Input tidak boleh negatif!")
+			continue
+		}
+		return value
+	}
+}
 
 // cetak Data
 func cetakData(A datapakaian, awal int, akhir int) {
@@ -495,7 +514,7 @@ func menu_rekomendasi() {
 }
 func pilih_rekomendasiPakaian() {
 	var pilihanCuaca, pilihanAcara int
-	var cuaca, acara string
+	var _, _ string
 
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              PILIH CUACA                 |")
@@ -509,11 +528,11 @@ func pilih_rekomendasiPakaian() {
 
 	switch pilihanCuaca {
 	case 1:
-		cuaca = "cerah"
+		_ = "cerah"
 	case 2:
-		cuaca = "mendung"
+		_ = "mendung"
 	case 3:
-		cuaca = "hujan"
+		_ = "hujan"
 	default:
 		fmt.Println("Pilihan cuaca tidak valid")
 		return
@@ -533,11 +552,11 @@ func pilih_rekomendasiPakaian() {
 
 	switch pilihanAcara {
 	case 1:
-		acara = "formal"
+		_ = "formal"
 	case 2:
-		acara = "semiformal"
+		_ = "semiformal"
 	case 3:
-		acara = "casual"
+		_ = "casual"
 	default:
 		fmt.Println("Pilihan acara tidak valid")
 		return
