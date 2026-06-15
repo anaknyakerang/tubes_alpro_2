@@ -245,9 +245,9 @@ func tambahPakaian(data *datapakaian) {
 
 // isNumber
 func isNumber(input int) bool {
-	/*
-
-	 */
+	/*Mengembalikan true jika input bernilai 0 atau lebih.
+	Mengembalikan false jika input bernilai negatif.
+	*/
 
 	if input >= 0 {
 		return true
@@ -258,8 +258,13 @@ func isNumber(input int) bool {
 // menu edit data
 func menuEditData() {
 	/*
-		IS :
-		FS :
+		IS : Program berada pada menu utama atau menu sebelumnya, dan data pakaian yang tersimpan
+		     dapat diakses untuk dilakukan proses pengeditan.
+
+		FS : Menu Edit Data ditampilkan. Jika user memilih opsi 1 maka program memanggil
+		     prosedur editDatabyId untuk mengubah data pakaian berdasarkan ID.
+		     Jika user memilih opsi 0 maka tidak dilakukan proses edit dan program kembali
+		     ke alur menu sebelumnya.
 	*/
 
 	var pilih int
@@ -282,8 +287,11 @@ func menuEditData() {
 // fungsi untuk mengedit data berdasarkan id
 func editDatabyId(data *datapakaian) {
 	/*
-		IS :
-		FS :
+		IS : Menampilkan menu edit data pakaian yang tersedia dalam sistem.
+		FS : Menampilkan opsi untuk melakukan pengeditan data. Jika user input 1 (true),
+		     maka sistem akan memanggil prosedur editDatabyId untuk mengubah data
+		     pakaian berdasarkan ID. Jika user input 0 (false), maka sistem akan
+		     kembali ke menu utama tanpa melakukan perubahan data.
 	*/
 
 	var id, stok int
@@ -312,8 +320,10 @@ func editDatabyId(data *datapakaian) {
 // fungsi untuk mencari id
 func findId(data *datapakaian, id int) bool {
 	/*
+		Mencari data pakaian berdasarkan ID.
+		Mengembalikan posisi data jika ditemukan, dan -1 jika tidak ditemukan.
 
-	 */
+	*/
 
 	var left, right, mid int
 	var found bool
@@ -336,8 +346,9 @@ func findId(data *datapakaian, id int) bool {
 // fungsi untuk mencari indeks berdasarkan id
 func findIdxbyId(data *datapakaian, id int) int {
 	/*
-
-	 */
+		Mencari indeks data pakaian berdasarkan ID.
+		Mengembalikan indeks jika ditemukan, dan -1 jika tidak ditemukan.
+	*/
 
 	var left, right, mid int
 	var idxfound int
@@ -463,8 +474,10 @@ func hapusDatabyID(A *datapakaian, n *int) {
 
 func daftarpakaian() {
 	/*
-		IS :
-		FS :
+		IS : Tersedia data pakaian yang tersimpan dalam array daftarToko dengan jumlah
+		     data yang tercatat pada variabel jumlahData.
+		FS : Seluruh data pakaian yang tersimpan ditampilkan ke layar dalam bentuk
+		     tabel yang berisi ID, nama pakaian, warna, ukuran, dan stok.
 	*/
 
 	var i int
