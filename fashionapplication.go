@@ -83,6 +83,7 @@ func icon() {
 
 	fmt.Scanln(&jeda)
 	for jeda != 1 {
+		//kalo inputnya selain 1 dia akan mengulang kembali
 		fmt.Println("Input tidak valid silahkan coba lagi!")
 		fmt.Scanln(&jeda)
 	}
@@ -119,19 +120,21 @@ func inputInt() int {
 	*/
 	var err error
 	var value int
+
 	for {
 		_, err = fmt.Scan(&value)
+
 		if err != nil {
 			fmt.Println("Input harus berupa angka!")
 			var dummy string
 			fmt.Scanln(&dummy)
-			continue
-		}
-		if value < 0 {
+
+		} else if value < 0 {
 			fmt.Println("Input tidak boleh negatif!")
-			continue
+
+		} else {
+			return value
 		}
-		return value
 	}
 }
 
