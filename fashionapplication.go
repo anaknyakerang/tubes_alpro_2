@@ -82,7 +82,10 @@ func icon() {
 	fmt.Println("          [ Ketik 1 Untuk Masuk Aplikasi ]        ")
 
 	fmt.Scanln(&jeda)
-
+	for jeda != 1 {
+		fmt.Println("Input tidak valid silahkan coba lagi!")
+		fmt.Scanln(&jeda)
+	}
 	clearScreen()
 }
 
@@ -109,6 +112,11 @@ func menu_utama() {
 	fmt.Print("Pilih [0 - 7]?")
 }
 func inputInt() int {
+	/*
+		fungsi mengembalikan input integer yang sudah divalidasi.
+		Input harus berupa angka dan tidak boleh negatif.
+		Jika input salah, pengguna diminta mengulang.
+	*/
 	var err error
 	var value int
 	for {
@@ -172,6 +180,9 @@ func menutambahData() {
 	if pilih == 1 {
 		// Langsung panggil fungsi gabungan kita
 		tambahPakaian(&daftarToko)
+	} else if pilih != 0 && pilih != 1 {
+		fmt.Println("Pilihan tidak valid silahkan coba lagi!")
+		menutambahData()
 	}
 	// Jika pilih 0, otomatis keluar dari fungsi ini dan balik ke main loop
 }
@@ -219,13 +230,7 @@ func tambahPakaian(data *datapakaian) {
 		fmt.Scan(&data[jumlahData].ukuran)
 
 		fmt.Print("Masukkan Stok   : ")
-		fmt.Scan(&inputStok)
-
-		for !isNumber(inputStok) {
-			fmt.Println("Input Tidak Valid, Masukkan Stok yang benar!")
-			fmt.Print("Masukkan Stok   : ")
-			fmt.Scan(&inputStok)
-		}
+		inputStok = inputInt()
 		data[jumlahData].stok = inputStok
 
 		// Menaikkan jumlahData global setiap kali 1 baju sukses diinput
@@ -241,18 +246,6 @@ func tambahPakaian(data *datapakaian) {
 	fmt.Scan(&jeda)
 
 	clearScreen()
-}
-
-// isNumber
-func isNumber(input int) bool {
-	/*Mengembalikan true jika input bernilai 0 atau lebih.
-	Mengembalikan false jika input bernilai negatif.
-	*/
-
-	if input >= 0 {
-		return true
-	}
-	return false
 }
 
 // menu edit data
@@ -281,6 +274,9 @@ func menuEditData() {
 	pilih = inputInt()
 	if pilih == 1 {
 		editDatabyId(&daftarToko)
+	} else if pilih != 0 && pilih != 1 {
+		fmt.Println("Pilihan tidak valid silahkan coba lagi!")
+		menuEditData()
 	}
 }
 
@@ -392,10 +388,10 @@ func menuhapusData() {
 
 	if pilih == 1 {
 		hapusDatabyID(&daftarToko, &jumlahData)
-	} else if pilih == 0 {
-		menu_utama()
+	} else if pilih != 0 && pilih != 1 {
+		fmt.Println("Pilihan tidak valid silahkan coba lagi!")
+		menuhapusData()
 	}
-
 }
 
 func hapusDatabyID(A *datapakaian, n *int) {
@@ -509,7 +505,6 @@ func menu_rekomendasi() {
 	*/
 	var pilih int
 
-	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|         Menu Rekomendasi Pakaian         |")
@@ -521,12 +516,17 @@ func menu_rekomendasi() {
 	pilih = inputInt()
 
 	if pilih == 1 {
-
+		pilih_rekomendasiPakaian()
+	} else if pilih == 0 {
+		clearScreen()
+	} else {
+		fmt.Println("Pilihan tidak valid silahkan coba lagi!")
+		menu_rekomendasi()
 	}
 }
 func pilih_rekomendasiPakaian() {
 	var pilihanCuaca, pilihanAcara int
-	var _, _ string
+	var cuaca, acara string
 
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              PILIH CUACA                 |")
@@ -540,11 +540,11 @@ func pilih_rekomendasiPakaian() {
 
 	switch pilihanCuaca {
 	case 1:
-		_ = "cerah"
+		cuaca = "cerah"
 	case 2:
-		_ = "mendung"
+		cuaca = "mendung"
 	case 3:
-		_ = "hujan"
+		cuaca = "hujan"
 	default:
 		fmt.Println("Pilihan cuaca tidak valid")
 		return
@@ -564,18 +564,140 @@ func pilih_rekomendasiPakaian() {
 
 	switch pilihanAcara {
 	case 1:
-		_ = "formal"
+		acara = "formal"
 	case 2:
-		_ = "semiformal"
+		acara = "semiformal"
 	case 3:
-		_ = "casual"
+		acara = "casual"
 	default:
 		fmt.Println("Pilihan acara tidak valid")
 		return
 	}
+	rekomendasiPakaian(cuaca, acara)
+}
+func rekomendasiPakaian(cuaca string, acara string) {
+	var i int
+	fmt.Println()
+	fmt.Println("+------------------------------------------+")
+	fmt.Println("|         REKOMENDASI PAKAIAN              |")
+	fmt.Println("+------------------------------------------+")
 
-	// Panggil fungsi rekomendasi
+	for i = 0; i < len(daftarToko); i++ {
 
+		switch {
+
+		// ================= CERAH =================
+
+		case cuaca == "cerah" && acara == "formal":
+			if daftarToko[i].id == 7 || // Kemeja Kerja
+				daftarToko[i].id == 13 || // Kemeja Batik
+				daftarToko[i].id == 27 || // Kemeja Formal
+				daftarToko[i].id == 42 || // Kemeja Linen
+				daftarToko[i].id == 49 || // Blazer Formal
+				daftarToko[i].id == 52 || // Kemeja Kerja
+				daftarToko[i].id == 57 || // Kemeja Shanghai
+				daftarToko[i].id == 78 || // Kemeja Oxford
+				daftarToko[i].id == 82 || // Kemeja Formal
+				daftarToko[i].id == 87 || // Kemeja Batik
+				daftarToko[i].id == 92 { // Kemeja Pria
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		case cuaca == "cerah" && acara == "semiformal":
+			if daftarToko[i].id == 2 || // Kemeja Flanel
+				daftarToko[i].id == 3 || // Celana Chino
+				daftarToko[i].id == 16 || // Cardigan Knitted
+				daftarToko[i].id == 21 || // Kaos Polo
+				daftarToko[i].id == 31 || // Rok Plisket
+				daftarToko[i].id == 55 || // Cardigan Polos
+				daftarToko[i].id == 65 || // Sweater Rajut
+				daftarToko[i].id == 85 { // Sweater Vneck
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		case cuaca == "cerah" && acara == "casual":
+			if daftarToko[i].id == 1 || // Kaos Polos
+				daftarToko[i].id == 6 || // Kaos Polos
+				daftarToko[i].id == 8 || // Celana Jeans
+				daftarToko[i].id == 17 || // Kaos V-Neck
+				daftarToko[i].id == 25 || // Sweater Hoodie
+				daftarToko[i].id == 26 || // Kaos Polos
+				daftarToko[i].id == 37 || // Kaos Oversize
+				daftarToko[i].id == 41 || // Kaos Polos
+				daftarToko[i].id == 46 || // Kaos Grafik
+				daftarToko[i].id == 51 || // Kaos Singlet
+				daftarToko[i].id == 56 || // Kaos Polos
+				daftarToko[i].id == 61 || // Kaos Raglan
+				daftarToko[i].id == 66 || // Kaos Polo
+				daftarToko[i].id == 72 || // Kaos V-Neck
+				daftarToko[i].id == 77 || // Kaos Polos
+				daftarToko[i].id == 81 || // Tshirt Stripe
+				daftarToko[i].id == 86 || // Kaos Oversize
+				daftarToko[i].id == 91 || // Kaos Polos
+				daftarToko[i].id == 96 { // Kaos Distro
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		// ================= MENDUNG =================
+
+		case cuaca == "mendung" && acara == "formal":
+			if daftarToko[i].id == 30 || // Blouse Silk
+				daftarToko[i].id == 45 || // Turtleneck
+				daftarToko[i].id == 95 { // Cardigan Rajut
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		case cuaca == "mendung" && acara == "semiformal":
+			if daftarToko[i].id == 5 || // Sweater Crewneck
+				daftarToko[i].id == 18 || // Tunik Dress
+				daftarToko[i].id == 59 || // Fleece Jacket
+				daftarToko[i].id == 60 || // Crop Top
+				daftarToko[i].id == 90 { // Tunik Polos
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		case cuaca == "mendung" && acara == "casual":
+			if daftarToko[i].id == 9 || // Hoodie Oversize
+				daftarToko[i].id == 24 || // Jaket Denim
+				daftarToko[i].id == 35 || // Windbreaker
+				daftarToko[i].id == 69 || // Track Jacket
+				daftarToko[i].id == 76 || // Hoodie Polos
+				daftarToko[i].id == 99 { // Jaket Hoodie
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		// ================= HUJAN =================
+
+		case cuaca == "hujan" && acara == "formal":
+			if daftarToko[i].id == 15 || // Jaket Parka
+				daftarToko[i].id == 64 || // Puffer Jacket
+				daftarToko[i].id == 75 || // Biker Jacket
+				daftarToko[i].id == 80 { // Long Coat
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		case cuaca == "hujan" && acara == "semiformal":
+			if daftarToko[i].id == 4 || // Jaket Bomber
+				daftarToko[i].id == 29 || // Coach Jacket
+				daftarToko[i].id == 44 || // Varsity Jacket
+				daftarToko[i].id == 54 || // Anorak Jacket
+				daftarToko[i].id == 89 || // Bomber Jacket
+				daftarToko[i].id == 94 { // Harrington
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+
+		case cuaca == "hujan" && acara == "casual":
+			if daftarToko[i].id == 84 || // Raincoat
+				daftarToko[i].id == 88 || // Celana Kulot
+				daftarToko[i].id == 93 || // Celana Sirwal
+				daftarToko[i].id == 98 || // Celana Tactical
+				daftarToko[i].id == 100 { // Blouse Casual
+				fmt.Printf("|  %-40s|\n", daftarToko[i].nama)
+			}
+		}
+	}
+
+	fmt.Println("+------------------------------------------+")
 }
 
 // ubah huruf jadi abjad
@@ -680,6 +802,9 @@ func menu_searching() {
 	} else if pilih == 0 {
 		clearScreen()
 		menu_utama()
+	} else {
+		fmt.Println("Pilihan tidak valid silahkan coba lagi!")
+		menu_searching()
 	}
 }
 
