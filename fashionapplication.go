@@ -550,7 +550,7 @@ func pilih_rekomendasiPakaian() {
 		cuaca = "hujan"
 	default:
 		fmt.Println("Pilihan cuaca tidak valid")
-		return
+		pilih_rekomendasiPakaian()
 	}
 
 	fmt.Println()
@@ -574,12 +574,13 @@ func pilih_rekomendasiPakaian() {
 		acara = "casual"
 	default:
 		fmt.Println("Pilihan acara tidak valid")
-		return
+		pilih_rekomendasiPakaian()
 	}
 	rekomendasiPakaian(cuaca, acara)
 }
 func rekomendasiPakaian(cuaca string, acara string) {
 	var i int
+	var next string
 	fmt.Println()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|         REKOMENDASI PAKAIAN              |")
@@ -701,6 +702,23 @@ func rekomendasiPakaian(cuaca string, acara string) {
 	}
 
 	fmt.Println("+------------------------------------------+")
+
+	for {
+		fmt.Print("Apakah Anda ingin kembali ke menu rekomendasi? ya/tidak: ")
+		fmt.Scan(&next)
+
+		switch next {
+		case "ya":
+			menu_rekomendasi()
+			return
+
+		case "tidak":
+			return
+
+		default:
+			fmt.Println("Input tidak valid")
+		}
+	}
 }
 
 // ubah huruf jadi abjad
@@ -1028,7 +1046,7 @@ func ukuranSelecSortDesc(A *datapakaian, n int) {
 		i = pass
 
 		for i < n {
-			//biar terurut XS-S-M-L-XL
+			//agar datanya terurut XS-S-M-L-XL
 			if bobotUkuran((*A)[i].ukuran) > bobotUkuran((*A)[idx].ukuran) {
 				idx = i
 			}
