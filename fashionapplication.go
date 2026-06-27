@@ -530,9 +530,10 @@ func menu_rekomendasi() {
 }
 
 func pilih_rekomendasiPakaian() {
-	/* 
-
+	/*  Subprogram ini akan menginput cuaca dan acara oleh user, lalu pointer akan meneruskan 
+		inputan user ke subprogram rekomendasiPakaian untuk memberikan rekomendasi-rekomendasi pakaian.
 	*/
+
 	var pilihanCuaca, pilihanAcara int
 	var cuaca, acara string
 
@@ -583,9 +584,12 @@ func pilih_rekomendasiPakaian() {
 	}
 	rekomendasiPakaian(cuaca, acara)
 }
+
 func rekomendasiPakaian(cuaca string, acara string) {
-	/*
-	*/
+	/*  subprogram rekomendasiPakaian akan memberikan rekomendasi khusus berdasarkan 
+		cuaca dan kondisi acara user. Subprogram ini akan mengembalikan nilai berupa data 
+		fashion dari data yang sudah tersedia.
+	*/	
 
 	var i int
 	var next string
