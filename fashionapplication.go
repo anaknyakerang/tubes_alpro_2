@@ -1143,6 +1143,7 @@ func menuExit() bool {
 		atau mengembalikan false jika user memilih "No" di salah satu konfirmasi (sinyal batal keluar).
 	*/
 	var input int
+	var out string
 
 	clearScreen()
 
@@ -1188,6 +1189,9 @@ func menuExit() bool {
 			fmt.Println("                       Program otomatis akan ditutup. ")
 			fmt.Println()
 
+			fmt.Print("Tekan ENTER sekali lagi untuk keluar dari aplikasi...")
+    		fmt.Scanln(&out)
+			fmt.Scanln(&out)
 			return true
 		}
 	}
