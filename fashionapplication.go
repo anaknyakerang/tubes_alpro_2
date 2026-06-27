@@ -844,6 +844,13 @@ func menu_searching() {
 
 // mencari ukuran menggunakan sequential search
 func sequentialSearchbySize(data datapakaian, n int, ukuran string) {
+	/*
+		IS : Terdefinisi sebuah array data yang berisi n data pakaian dalam keadaan sudah terurut secara naik (Ascending) berdasarkan nomor ID,
+		dan terdefinisi sebuah parameter ukuran sebagai ukuran pakaian yang ingin dicari.
+		FS : Jika ukuran yang disimpan dalam ukuran ditemukan di dalam array data, maka data pakaian tersebut dicetak rapi ke layar terminal (menggunakan prosedur cetakData).
+		Jika ukuran tersebut tidak ditemukan, maka layar akan menampilkan tabel kosong dan meminta user untuk menginput kembali.
+	*/
+
 	var i int
 	i = 0
 
@@ -866,6 +873,13 @@ func sequentialSearchbySize(data datapakaian, n int, ukuran string) {
 
 // mencari warna menggunakan sequential search
 func sequentialSearchbyColor(data datapakaian, n int, warna string) {
+	/*
+		IS : Terdefinisi sebuah array data yang berisi n data pakaian dalam keadaan sudah terurut secara naik (Ascending) berdasarkan nomor ID,
+		dan terdefinisi sebuah parameter warna sebagai warna pakaian yang ingin dicari.
+		FS : Jika warna yang disimpan dalam warna ditemukan di dalam array data, maka data pakaian tersebut dicetak rapi ke layar terminal (menggunakan prosedur cetakData).
+		Jika warna tersebut tidak ditemukan, maka layar akan menampilkan tabel kosong dan meminta user untuk menginput kembali.
+	*/
+
 	var i int
 	i = 0
 	fmt.Println("\n+-------+----------------------+-----------------+------------+-------+")
@@ -889,10 +903,11 @@ func sequentialSearchbyColor(data datapakaian, n int, warna string) {
 func idBinarySearch(A *datapakaian, n int, x int) {
 	/*
 		IS : Terdefinisi sebuah array A yang berisi n data pakaian dalam keadaan sudah terurut secara naik (Ascending) berdasarkan nomor ID,
-		dan terdefinisi sebuah variabel x sebagai nomor ID pakaian yang ingin dicari.
+		dan terdefinisi sebuah parameter x sebagai nomor ID pakaian yang ingin dicari.
 		FS : Jika nomor ID yang disimpan dalam x ditemukan di dalam array A, maka data pakaian tersebut dicetak rapi ke layar terminal (menggunakan prosedur cetakData).
 		Jika nomor ID x tidak ditemukan, maka layar akan menampilkan pesan teks bahwa data tidak ditemukan.
 	*/
+
 	var left, right, mid int
 	var idx int
 	var batasKanan, batasKiri int
@@ -1007,7 +1022,6 @@ func menuSorting() {
 	}
 }
 
-// Muti
 // ukuran selection sort asc
 func ukuranSelecSortAsc(A *datapakaian, n int) {
 	/*
