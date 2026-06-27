@@ -1,0 +1,40 @@
+/* 
+    Nama anggota :
+        1. Kayla Sabrina Rayghita (103012500085)
+        2. Mutiara Putri Syifani (103012530051)
+
+
+
+    Bagian topik : A
+    Nomor topik : 3
+    Judul topik : Aplikasi Manajemen Fashion
+
+
+
+    Deskripsi program :
+    Program ini merupakan aplikasi sederhana untuk mengelola data pakaian dan memberikan rekomendasi pakaian berdasarkan 
+    cuaca dan kondisi acara pengguna.
+
+
+
+    Tantangan yang  dihadapi : 
+        1. Membuat UI yang simpel dan unik. 
+        2. Membuat data yang sifatnya unik.
+        3. Membuat program yang dapat memberikan rekomendasi pakaian.
+
+    Masalah yang dihadapi: 
+        1. Pembatas penggunaan bahasa go, seperti package tambahan.
+
+    Fitur utama :
+        1. Manajemen pakaian :
+            -Menampilkan daftar data pakaian
+            -Menambah data pakaian
+            -Mengedit data pakaian 
+            -Menghapus data pakaian
+            -Mencari data pakaian berdasarkan ID, Ukuran, dan Warna.
+            -Mengsortir pakaian Berdasarkan Ukuran dan Warna.
+
+        2. Rekomendasi pakaian:
+            -Penggguna memilih cuaca dan kondisi acara.
+            -Sistem akan memberikan saran beberapa pakaian yang cocok untuk digunakan oleh pengguna. 
+*/
