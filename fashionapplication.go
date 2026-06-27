@@ -508,6 +508,7 @@ func menu_rekomendasi() {
 	*/
 	var pilih int
 
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              Anda Berada Di              |")
 	fmt.Println("|         Menu Rekomendasi Pakaian         |")
@@ -527,10 +528,15 @@ func menu_rekomendasi() {
 		menu_rekomendasi()
 	}
 }
+
 func pilih_rekomendasiPakaian() {
+	/* 
+
+	*/
 	var pilihanCuaca, pilihanAcara int
 	var cuaca, acara string
 
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              PILIH CUACA                 |")
 	fmt.Println("+------------------------------------------+")
@@ -553,8 +559,7 @@ func pilih_rekomendasiPakaian() {
 		pilih_rekomendasiPakaian()
 	}
 
-	fmt.Println()
-
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|              PILIH ACARA                 |")
 	fmt.Println("+------------------------------------------+")
@@ -579,9 +584,13 @@ func pilih_rekomendasiPakaian() {
 	rekomendasiPakaian(cuaca, acara)
 }
 func rekomendasiPakaian(cuaca string, acara string) {
+	/*
+	*/
+
 	var i int
 	var next string
-	fmt.Println()
+
+	clearScreen()
 	fmt.Println("+------------------------------------------+")
 	fmt.Println("|         REKOMENDASI PAKAIAN              |")
 	fmt.Println("+------------------------------------------+")
