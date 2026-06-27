@@ -20,7 +20,7 @@ Aplikasi ini menerapkan konsep struktur data Array of Struct, Pointer, serta alg
    * **[Read / Tampil Data](fashionapplication.go#L142):** Menampilkan seluruh daftar data pakaian dalam bentuk tabel yang rapi di terminal.
    * **[Update / Edit Data](fashionapplication.go#L255):** Mengedit satu atau seluruh data pakaian.
    * **[Delete / Hapus Data](fashionapplication.go#L371):** Menghapus data pakaian berdasarkan ID.
-4. **[Pencarian Data (Searching)](fashionapplication.go#L752):** Mencari data pakaian secara instan berdasarkan ID menggunakan algoritma **Binary Search**.
-5. **[Pengurutan Data (Sorting)](fashionapplication.go#L924):** Mengurutkan daftar pakaian berdasarkan Ukuran atau Warna secara **Ascending** maupun **Descending**.
-6. **[Rekomendasi Outfit](fashionapplication.go#L502):** Memberikan rekomendasi outfit kalcer.
+4. **[Pencarian Data (Searching)](fashionapplication.go#L765):** Mencari data pakaian secara instan berdasarkan ID menggunakan algoritma **Binary Search**.
+5. **[Pengurutan Data (Sorting)](fashionapplication.go#L952):** Mengurutkan daftar pakaian berdasarkan Ukuran atau Warna secara **Ascending** maupun **Descending**.
+6. **[Rekomendasi Outfit](fashionapplication.go#L502):** Memberikan rekomendasi outfit.
 ---
